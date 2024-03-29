@@ -73,7 +73,7 @@ function Input() {
         <div className="relative w-full">
           <input
             type="text"
-            className="flex w-full focus:outline-none pl-4 h-10 bg-[#111] rounded-md border-b-1 border-b-gray-400 text-white"
+            className="flex w-full focus:outline-none pl-4 h-10 bg-black rounded-md border-b-1 border-b-gray-400 text-white"
           />
         </div>
       </div>

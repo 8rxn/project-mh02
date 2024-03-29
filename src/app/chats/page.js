@@ -1,15 +1,15 @@
 "use client";
 import React from "react";
-import ChatsNav from "../../components/navbar/ChatsNav"
+import ChatsNav from "../../components/navbar/ChatsNav";
 import CardHover from "../../components/CardHover";
 
 function Page() {
   return (
     <>
-    <ChatsNav/>
-    <div className="min-h-screen mt-20">
-      <CardHover items={projects} />
-    </div>
+      <ChatsNav />
+      <div className="min-h-screen mt-20">
+        <CardHover items={projects} />
+      </div>
     </>
   );
 }

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.10",
+    "arweave-wallet-kit": "^1.0.4",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.18",
     "mini-svg-data-uri": "^1.4.4",

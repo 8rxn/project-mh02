@@ -2,6 +2,7 @@
 import React from "react";
 import { Link, Button } from "@nextui-org/react";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { ConnectButton } from "arweave-wallet-kit";
 
 export default function ChatNav() {
   return (
@@ -21,14 +22,19 @@ export default function ChatNav() {
         </p>
       </div>
       <div justify="end">
-        <Button
+        {/* <Button
           as={Link}
           href="/"
           variant="flat"
           className="text-white font-Poppins bg-opacity-100 bg-blue-500 font-medium text-sm sm:text-md rounded-lg py-2 px-6"
         >
           Connect Wallet
-        </Button>
+        </Button> */}
+        <ConnectButton
+          accent="rgb(59, 130, 246)"
+          profileModal={false}
+          showBalance={false}
+        />
       </div>
     </div>
   );

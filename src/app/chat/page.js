@@ -4,6 +4,7 @@ import ImgMessage from "../../components/messages/ImgMessage";
 import ChatNav from "../../components/navbar/ChatNav";
 
 function page() {
+  
   const messages = [
     { message: "Hey!", name: "Assistant", time: "11:56" },
     { message: "Hello", name: "Anmol", time: "11:56" },

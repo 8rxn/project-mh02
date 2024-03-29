@@ -27,25 +27,30 @@ function page() {
     { chatroom: "Chat Room 6", chatId: "#09876668" },
   ];
   return (
-    <div className="relative flex flex-col-reverse lg:grid grid-cols-6 grid-rows-4 gap-2 min-h-screen">
-      <div className="relative grid grid-rows-4 gap-2 col-span-1 row-span-4 w-full bg-black mx-auto mt-2 max-h-[95vh]">
-        <div className="text-white h-full row-span-2 border-[1px] border-gray-700 rounded-xl max-h-full overflow-scroll chat-container">
-          <p className="text-white p-4 text-lg font-bold border-b-1 border-b-gray-700">All Chats</p>
-          {chats.map(({ chatroom, chatId }, index) => (
-            <Chat key={index} chatroom={chatroom} chatId={chatId} />
-          ))}
+    <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
+      <div className="relative flex flex-col w-full lg:w-[300px] bg-black mx-auto mt-2 max-h-[720px]">
+        <div className="text-white border-[1px] border-gray-700 rounded-xl min-h-[300px] max-h-[350px]">
+          <p className="text-white p-4 text-lg font-bold border-b-1 border-b-gray-700">
+            All Chats
+          </p>
+          <ScrollShadow hideScrollBar className="max-h-[300px] overflow-scroll">
+            {chats.map(({ chatroom, chatId }, index) => (
+              <Chat key={index} chatroom={chatroom} chatId={chatId} />
+            ))}
+          </ScrollShadow>
         </div>
-        <div className="h-full flex justify-center items-center row-span-2  border-[1px] border-gray-700 rounded-xl">
+        <div className="flex justify-center items-center border-[1px] border-gray-700 rounded-xl min-h-[300px] max-h-[350px] mt-2">
           <p className="text-white">Explore Chat Bots</p>
         </div>
       </div>
-      <div className="col-span-5 row-span-4 w-full bg-black mx-auto mt-2">
+      <div className="w-full bg-black mx-auto mt-2 max-h-[400px]">
         <ChatNav />
         <div className="mx-auto w-auto overflow-auto relative bg-[#080808]">
           <ScrollShadow
+            hideScrollBar
             size={100}
             offset={30}
-            className="flex flex-col gap-2 max-h-[72dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:min-h-[60vh] 2xl:max-h-[75vh] overflow-scroll chat-container border-l-[1px] border-r-[1px] border-gray-700 sm:p-4 p-2"
+            className="flex flex-col gap-2 p-2 max-h-[74dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:min-h-[60vh] 2xl:max-h-[500px] overflow-scroll "
           >
             {messages.map(({ message, name, time }, index) => (
               <TextMessage
@@ -73,7 +78,7 @@ function Input() {
         <div className="relative w-full">
           <input
             type="text"
-            className="flex w-full focus:outline-none pl-4 h-10 bg-black rounded-md border-b-1 border-b-gray-400 text-white"
+            className="flex w-full focus:outline-none pl-4 h-10 bg-black border-b-1 border-b-gray-400 text-white"
           />
         </div>
       </div>

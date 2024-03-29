@@ -4,6 +4,7 @@ import ImgMessage from "../../components/messages/ImgMessage";
 import ChatNav from "../../components/navbar/ChatNav";
 import { IoSend } from "react-icons/io5";
 import { Tooltip, ScrollShadow } from "@nextui-org/react";
+import Chat from "../../components/messages/Chat";
 
 function page() {
   const messages = [
@@ -16,26 +17,48 @@ function page() {
       time: "11:56",
     },
   ];
+
+  const chats = [
+    { chatroom: "Chat Room 1", chatId: "#09876668" },
+    { chatroom: "Chat Room 2", chatId: "#09876668" },
+    { chatroom: "Chat Room 3", chatId: "#09876668" },
+    { chatroom: "Chat Room 4", chatId: "#09876668" },
+    { chatroom: "Chat Room 5", chatId: "#09876668" },
+    { chatroom: "Chat Room 6", chatId: "#09876668" },
+  ];
   return (
-    <div className="min-h-screen bg-black max-w-[95%] mx-auto mt-2">
-      <ChatNav />
-      <div className="mx-auto w-auto min-h-[86dvh] sm:min-h-[90vh] 2xl:min-h-[92vh] overflow-auto relative bg-[#080808]">
-        <ScrollShadow
-          size={100}
-          offset={30}
-          className="flex flex-col gap-2 max-h-[72dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:min-h-[60vh] 2xl:max-h-[75vh] overflow-scroll chat-container border-l-[1px] border-r-[1px] border-gray-700 sm:p-4 p-2"
-        >
-          {messages.map(({ message, name, time }, index) => (
-            <TextMessage
-              key={index}
-              message={message}
-              name={name}
-              time={time}
-            />
+    <div className="relative flex flex-col-reverse lg:grid grid-cols-6 grid-rows-4 gap-2 min-h-screen">
+      <div className="relative grid grid-rows-4 gap-2 col-span-1 row-span-4 w-full bg-black mx-auto mt-2 max-h-[95vh]">
+        <div className="text-white h-full row-span-2 border-[1px] border-gray-700 rounded-xl max-h-full overflow-scroll chat-container">
+          <p className="text-white p-4 text-lg font-bold border-b-1 border-b-gray-700">All Chats</p>
+          {chats.map(({ chatroom, chatId }, index) => (
+            <Chat key={index} chatroom={chatroom} chatId={chatId} />
           ))}
-          <ImgMessage />
-        </ScrollShadow>
-        <Input />
+        </div>
+        <div className="h-full flex justify-center items-center row-span-2  border-[1px] border-gray-700 rounded-xl">
+          <p className="text-white">Explore Chat Bots</p>
+        </div>
+      </div>
+      <div className="col-span-5 row-span-4 w-full bg-black mx-auto mt-2">
+        <ChatNav />
+        <div className="mx-auto w-auto overflow-auto relative bg-[#080808]">
+          <ScrollShadow
+            size={100}
+            offset={30}
+            className="flex flex-col gap-2 max-h-[72dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:min-h-[60vh] 2xl:max-h-[75vh] overflow-scroll chat-container border-l-[1px] border-r-[1px] border-gray-700 sm:p-4 p-2"
+          >
+            {messages.map(({ message, name, time }, index) => (
+              <TextMessage
+                key={index}
+                message={message}
+                name={name}
+                time={time}
+              />
+            ))}
+            <ImgMessage />
+          </ScrollShadow>
+          <Input />
+        </div>
       </div>
     </div>
   );

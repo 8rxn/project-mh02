@@ -17,9 +17,9 @@ export default function ChatNav() {
           </a>
         </Tooltip>
         <div className="flex flex-col sm:flex-row sm:gap-3 sm:items-center justify-center">
-          <a className="font-bold font-Gabarito text-md sm:text-2xl" href="/">
+          <p className="font-bold font-Gabarito text-md sm:text-2xl">
             Chat Room 01
-          </a>
+          </p>
           <p
             className="font-regular font-Poppins text-xs sm:text-lg max-w-[300px] sm:max-w-auto text-ellipsis line-clamp-1 text-gray-400"
             href="/"

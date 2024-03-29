@@ -20,7 +20,7 @@ function TextMessage({ message, name, time }) {
           isAssistant ? "text-gray-900" : "text-white"
         }`}>{name}</span>
           <span className={`text-[12px] font-normal ${
-          isAssistant ? "text-gray-700" : "text-gray-400"
+          isAssistant ? "text-gray-700" : "text-gray-100"
         }`}>{time}</span>
         </div>
         <p className={`text-[14px] font-normal py-1 font-Gabarito ${

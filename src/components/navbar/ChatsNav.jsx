@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -10,12 +10,19 @@ import {
   NavbarMenuItem,
   Link,
   Button,
+  Modal,
+  ModalContent,
+  useDisclosure,
+  Input,
+  Tooltip,
 } from "@nextui-org/react";
 
-export default function HomeNav() {
+export default function ChatsNav() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = ["Features", "About", "Support"];
+
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <Navbar
@@ -34,7 +41,7 @@ export default function HomeNav() {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-10" justify="center">
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link className="text-white font-Poppins" href="#">
             Features
@@ -53,14 +60,47 @@ export default function HomeNav() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
+          <Tooltip content="Join/Create a Chat">
             <Button
-              as={Link}
-              href="/"
+              onPress={onOpen}
               variant="flat"
               className="text-white font-Poppins bg-opacity-100 bg-blue-500 font-medium text-sm sm:text-md"
             >
-              Connect Wallet
+              New Chat
             </Button>
+          </Tooltip>
+          <Modal
+            isOpen={isOpen}
+            placement={"center"}
+            onOpenChange={onOpenChange}
+            className="rounded-sm bg-gray-900 pt-4 pb-8 px-8"
+          >
+            <ModalContent className="">
+              {(onClose) => (
+                <>
+                  <p className="mb-2 text-white text-lg font-bold">
+                    Join/Create a Chat Room:
+                  </p>
+                  <div className="flex items-center justify-center">
+                    <Input
+                      type="text"
+                      variant={"faded"}
+                      placeholder="Chat Room ID"
+                      radius="none"
+                      className="p-0 outline-none focus:outline-none border-none focus:border-none text-black"
+                    />
+                    <Button
+                      color="primary"
+                      onPress={onClose}
+                      className="rounded-l-none rounded-r-sm text-white"
+                    >
+                      Submit
+                    </Button>
+                  </div>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="bg-black mt-10">

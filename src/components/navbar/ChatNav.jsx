@@ -31,7 +31,7 @@ export default function ChatNav() {
       <div justify="end">
         <ConnectButton
           accent="rgb(149, 164, 252)"
-          profileModal={false}
+          profileModal={true}
           showBalance={false}
         />
       </div>

@@ -1,13 +1,20 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import TextMessage from "../../components/messages/TextMessage";
 import ImgMessage from "../../components/messages/ImgMessage";
 import ChatNav from "../../components/navbar/ChatNav";
+import { ScrollShadow, Tooltip } from "@nextui-org/react";
 import { IoSend } from "react-icons/io5";
-import { Tooltip, ScrollShadow } from "@nextui-org/react";
 import Chat from "../../components/messages/Chat";
+import {
+  message,
+  createDataItemSigner,
+  dryrun,
+} from "@permaweb/aoconnect/browser";
 
-function page() {
-  const messages = [
+export default function page() {
+  const chats = [
     { message: "Hey!", name: "Assistant", time: "11:56" },
     { message: "Hello", name: "Anmol", time: "11:56" },
     { message: "My issue is resolved", name: "Anmol", time: "11:56" },
@@ -18,14 +25,67 @@ function page() {
     },
   ];
 
-  const chats = [
-    { chatroom: "Chat Room 1", chatId: "#09876668" },
-    { chatroom: "Chat Room 2", chatId: "#09876668" },
-    { chatroom: "Chat Room 3", chatId: "#09876668" },
-    { chatroom: "Chat Room 4", chatId: "#09876668" },
-    { chatroom: "Chat Room 5", chatId: "#09876668" },
-    { chatroom: "Chat Room 6", chatId: "#09876668" },
-  ];
+  const [messages, setMessages] = useState([...chats]);
+
+  const sendMessages = async (msg) => {
+    const rz = await message({
+      process: "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg",
+      signer: createDataItemSigner(window.arweaveWallet),
+      data: msg,
+      tags: [
+        {
+          name: "Action",
+          value: "Chat",
+        },
+      ],
+    });
+    console.log(rz);
+  };
+
+  const register = async (msg) => {
+    const rz = await message({
+      process: "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg",
+      signer: createDataItemSigner(window.arweaveWallet),
+      data: msg,
+      tags: [
+        {
+          name: "Action",
+          value: "Register",
+        },
+      ],
+    });
+
+    console.log(rz);
+  };
+
+  // const requestTokens = async () => {
+  //   const rz = await message({
+  //     process: "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg",
+  //     signer: createDataItemSigner(window.arweaveWallet),
+  //     tags: [
+  //       {
+  //         name: "Action",
+  //         value: "TokenRequest",
+  //       },
+  //     ],
+  //   });
+
+  //   console.log(rz);
+  // };
+
+  const uploadImage = async (file) => {
+    await fetch("https://api.liteseed.xyz/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        file: file,
+        tags: "",
+      }),
+    });
+  };
+
   return (
     <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
       <div className="relative flex flex-col w-full lg:w-[300px] bg-black mx-auto mt-2 max-h-[720px]">
@@ -67,28 +127,62 @@ function page() {
       </div>
     </div>
   );
-}
 
-export default page;
+  function Input({ sendMessage }) {
+    const [input, setInput] = useState("");
 
-function Input() {
-  return (
-    <div className="flex flex-row items-center h-16 rounded-b-xl p-4 bg-black w-full border-[1px] border-gray-700">
-      <div className="flex-grow">
-        <div className="relative w-full">
-          <input
-            type="text"
-            className="flex w-full focus:outline-none pl-4 h-10 bg-black border-b-1 border-b-gray-400 text-white"
-          />
+    //   const messages = useStore((state) => state.messages);
+    //   const addMessage = useStore((state) => state.sendMessage);
+
+    const send = async () => {
+      console.log("send");
+      await sendMessage();
+      setInput("");
+    };
+
+    useEffect(() => {
+      const input = document.querySelector("input");
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !!input) {
+          send();
+        }
+
+        return () => {
+          input.removeEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+              send();
+            }
+          });
+        };
+      });
+    }, []);
+
+    return (
+      <div className="flex flex-row items-center h-16 rounded-b-xl p-4 bg-black w-full border-[1px] border-gray-700">
+        <div className="flex-grow">
+          <div className="relative w-full">
+            <input
+              type="text"
+              className="flex w-full focus:outline-none pl-4 h-10 bg-black border-b-1 border-b-gray-400 text-white"
+              onChange={(e) => {
+                setInput(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div
+          onClick={() => {
+            console.log("testes");
+            send();
+          }}
+        >
+          <Tooltip content="Send Message">
+            <button className="flex items-center justify-center text-white hover:text-[#95A4FC] py-3 pl-3 flex-shrink-0 rounded-full text-2xl">
+              <IoSend />
+            </button>
+          </Tooltip>
         </div>
       </div>
-      <div>
-        <Tooltip content="Send Message">
-          <button className="flex items-center justify-center text-white hover:text-[#95A4FC] py-3 pl-3 flex-shrink-0 rounded-full text-2xl">
-            <IoSend />
-          </button>
-        </Tooltip>
-      </div>
-    </div>
-  );
+    );
+  }
 }

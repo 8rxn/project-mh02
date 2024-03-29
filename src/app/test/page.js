@@ -26,7 +26,9 @@ const page = () => {
 
     // console.log(result);
 
-    await db.add({ age: 20, name: "Bob" }, 'activeChats').then(console.log).catch(console.error);
+    // await db.add({ age: 20, name: "Bob" }, 'activeChats').then(console.log).catch(console.error);
+    await db.get('activeChat', 'DIf3hBBaJEaDlmljqgKue5JfXnySwr2vq0CdPnmMuIU').then
+    (console.log).catch(console.error);
   }
 
   return (

@@ -1,6 +1,7 @@
 import React from "react";
 
-function ImgMessage({name, src, time }) {
+function ImgMessage({ name, src, time, text }) {
+  // console.log(text)
   return (
     <div className="flex items-start gap-2.5">
       <div className="flex flex-col gap-1">
@@ -9,10 +10,12 @@ function ImgMessage({name, src, time }) {
             <span className="text-[16px] font-semibold text-gray-900 line-clamp-1 text-ellipsis">
               {name}
             </span>
-            <span className="text-[12px] font-normal text-gray-800">{time}</span>
+            <span className="text-[12px] font-normal text-gray-800">
+              {time}
+            </span>
           </div>
           <p className="text-sm font-normal text-[14px] py-1  font-Gabarito text-gray-900">
-            This is the new office{" "}
+            {text}{" "}
           </p>
           <div className="group relative my-2.5">
             <div className="absolute w-full h-full bg-gray-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">

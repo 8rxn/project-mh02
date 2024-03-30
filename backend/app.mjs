@@ -1,8 +1,8 @@
 import express from "express";
-import { spawn } from "child_process";
 import bodyParser from "body-parser";
 import getWeather from "./weather-api.mjs";
 import getPrices from "./coin-api.mjs";
+import getKnowledge from "./knowledge-api.mjs";
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,7 +21,11 @@ app.post("/bot-message", async (req, res) => {
     const question = message;
     const reply = await getPrices(question);
     res.json({ replyText: reply, bot: "@crypto-bot" });
-  } 
+  } else if (botHandle === "@knowledge-bot") {
+    const question = message;
+    const response = await getKnowledge(botHandle, question);
+    res.json({ replyText: response, bot: "@knowledge-bot" });
+  }
   
   else {
     res.json({
@@ -39,7 +43,7 @@ app.get("/status", (req, res) => {
   res.json({ status: "up" });
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -3,8 +3,8 @@ import axios from 'axios';
 async function testPostRequest() {
     try {
         const response = await axios.post('http://localhost:3000/bot-message', {
-            botHandle: "@crypto-bot",
-            message: "Solana ka INR mein kya value hai?"
+            botHandle: "@knowledge-bot",
+            message: "2024 mein Defi Kaisa rhega?"
         });
 
         console.log('Response:', response.data);

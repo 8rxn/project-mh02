@@ -8,16 +8,18 @@ import BotCard from "../../components/bots/BotCard";
 function Page() {
   return (
     <>
-      <ChatsNav />
-      <div className="min-h-screen mt-20 flex flex-col-reverse lg:flex-row mx-auto w-[95vw] sm:w-[80vw]">
-        <ScrollShadow hideScrollBar className="md:max-h-[85vh] w-full">
-          <CardHover items={saareChats} />
-        </ScrollShadow>
-        <div className="col-span-1 text-white py-5 mt-[5px] md:max-h-[85vh] w-full lg:max-w-[300px]">
+      <div className="min-h-screen flex flex-col lg:flex-row mx-auto w-[95vw] sm:w-[80vw] py-4 gap-3">
+        <div className="relative flex flex-col w-full">
+          <ChatsNav />
+          <ScrollShadow hideScrollBar className="md:max-h-[80vh] w-full">
+            <CardHover items={saareChats} />
+          </ScrollShadow>
+        </div>
+        <div className=" text-white md:max-h-[85vh] w-full lg:max-w-[300px]">
           <div className="border-1 rounded-md border-gray-700 h-full w-full">
             <p className="font-bold text-2xl my-3 mx-4">Explore Bots</p>
             <ScrollShadow hideScrollBar className="h-full w-full">
-              <BotCard/>
+              <BotCard />
             </ScrollShadow>
           </div>
         </div>

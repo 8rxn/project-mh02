@@ -4,13 +4,16 @@ import cn from "../../util/cn"
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 
+import { FaArrowCircleRight } from "react-icons/fa";
+
+
 const CardHover = ({ items, className }) => {
   let [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
     <div
       className={cn(
-        "grid grid-cols-1 py-5 w-full mx-auto",
+        "grid grid-cols-1 py-2 w-full mx-auto",
         className
       )}
     >
@@ -55,13 +58,16 @@ const Card = ({ className, children }) => {
   return (
     <div
       className={cn(
-        "rounded-sm h-full w-full p-2 overflow-hidden bg-black border border-gray-600 group-hover:border-slate-700 relative z-20",
+        "rounded-sm flex justify-between items-center h-full w-full p-2 overflow-hidden bg-black border border-gray-600 group-hover:border-slate-700 relative z-20",
         className
       )}
     >
       <div className="relative z-50">
         <div className="p-2">{children}</div>
       </div>
+      <p className="text-2xl text-gray-300 mr-2">
+      <FaArrowCircleRight/>
+      </p>
     </div>
   );
 };

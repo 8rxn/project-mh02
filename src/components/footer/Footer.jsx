@@ -5,7 +5,7 @@ function Footer() {
     <div className="flex flex-col md:flex-row w-full justify-around items-center border-t-1 border-t-gray-700 py-20 gap-5">
       <div className="flex flex-col">
         <p className="font-bold font-Gabarito text-3xl sm:text-5xl text-white">
-          MH02
+          WeaveChat
         </p>
         <p className="font-light text-lg text-gray-400">by Team zkBuilders</p>
         <p className="font-light text-lg text-gray-400">

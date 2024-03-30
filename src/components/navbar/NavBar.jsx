@@ -29,7 +29,7 @@ export default function HomeNav() {
         />
         <NavbarBrand>
           <a className="font-bold font-Gabarito text-md sm:text-xl" href="/">
-            MH02
+            WeaveChat
           </a>
         </NavbarBrand>
       </NavbarContent>

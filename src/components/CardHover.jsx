@@ -1,26 +1,20 @@
-'use client'
+"use client";
 import React, { useState } from "react";
-import cn from "../../util/cn"
+import cn from "../../util/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 
 import { FaArrowCircleRight } from "react-icons/fa";
 
-
 const CardHover = ({ items, className }) => {
   let [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <div
-      className={cn(
-        "grid grid-cols-1 py-2 w-full mx-auto",
-        className
-      )}
-    >
+    <div className={cn("grid grid-cols-1 py-2 w-full mx-auto", className)}>
       {items.map((item, idx) => (
         <Link
-          href={item?.link}
-          key={item?.link}
+          href={"/chat/" + item?.roomid}
+          key={item?.roomid}
           className="relative group block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -66,7 +60,7 @@ const Card = ({ className, children }) => {
         <div className="p-2">{children}</div>
       </div>
       <p className="text-2xl text-gray-300 mr-2">
-      <FaArrowCircleRight/>
+        <FaArrowCircleRight />
       </p>
     </div>
   );
@@ -74,7 +68,12 @@ const Card = ({ className, children }) => {
 
 const CardTitle = ({ className, children }) => {
   return (
-    <h4 className={cn("text-white font-bold font-RobotoMono tracking-wide mt-2 text-xl", className)}>
+    <h4
+      className={cn(
+        "text-white font-bold font-RobotoMono tracking-wide mt-2 text-xl",
+        className
+      )}
+    >
       {children}
     </h4>
   );
@@ -82,7 +81,12 @@ const CardTitle = ({ className, children }) => {
 
 const CardSubTitle = ({ className, children }) => {
   return (
-    <h4 className={cn("text-gray-400 font-regular font-RobotoMono tracking-wide mt-1", className)}>
+    <h4
+      className={cn(
+        "text-gray-400 font-regular font-RobotoMono tracking-wide mt-1",
+        className
+      )}
+    >
       {children}
     </h4>
   );

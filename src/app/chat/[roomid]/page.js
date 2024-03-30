@@ -2,22 +2,24 @@
 
 import React, { useEffect, useState } from "react";
 
-import TextMessage from "../../components/messages/TextMessage";
-import ImgMessage from "../../components/messages/ImgMessage";
-import ChatNav from "../../components/navbar/ChatNav";
+import TextMessage from "../../../components/messages/TextMessage";
+import ImgMessage from "../../../components/messages/ImgMessage";
+import ChatNav from "../../../components/navbar/ChatNav";
 import { ScrollShadow, Tooltip, image } from "@nextui-org/react";
 import { IoSend } from "react-icons/io5";
 
-import Chat from "../../components/messages/Chat";
+import Chat from "../../../components/messages/Chat";
 import {
   message,
   createDataItemSigner,
   dryrun,
 } from "@permaweb/aoconnect/browser";
 
-export default function Page() {
+
+
+export default function Page({ params }) {
   const chats = [];
-  const process = "mK6hl6stBOfK1m66TpmYQ_3RG_FrRXWsJSdGTV6__i8";
+  let process;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [messages, setMessages] = useState([]);
@@ -88,38 +90,6 @@ export default function Page() {
     //console.log(rz);
   };
 
-  const botCommand = async (bot) => {
-    const rz = await message({
-      process,
-      signer: createDataItemSigner(window.arweaveWallet),
-      tags: [
-        {
-          name: "Action",
-          value: "BotCommand",
-        },
-        {
-          name: "Bot",
-          value: bot,
-        },
-      ],
-    });
-
-    //console.log(rz);
-  };
-
-  const uploadImage = async (file) => {
-    await fetch("https://api.liteseed.xyz/data", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        file: file,
-        tags: "",
-      }),
-    });
-  };
-
   const getInboxCount = async () => {
     const rz = await dryrun({
       process,
@@ -185,7 +155,7 @@ export default function Page() {
         setMyId(async () => await window.arweaveWallet.getActiveAddress());
       }
     }
-
+    process = params.roomid;
     init();
   }, [myId]);
 
@@ -223,7 +193,7 @@ export default function Page() {
         </div>
       </div>
       <div className="w-full bg-black mx-auto mt-2 max-h-[400px]">
-        <ChatNav />
+        <ChatNav Name={"Room 1"} RoomId={params.roomid} />
 
         <div className="mx-auto w-auto overflow-auto relative bg-[#080808]">
           <ScrollShadow
@@ -302,18 +272,18 @@ export default function Page() {
       setInput("");
     };
 
-    useEffect(() => {
-      const input = document.querySelector("input");
-      input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && !!input) {
-          send();
-        }
+    // useEffect(() => {
+    //   const input = document.querySelector("input");
+    //   input.addEventListener("keydown", (e) => {
+    //     if (e.key === "Enter" && !!input) {
+    //       send();
+    //     }
 
-        return () => {
-          input.removeEventListener("keydown");
-        };
-      });
-    }, []);
+    //     return () => {
+    //       input.removeEventListener("keydown");
+    //     };
+    //   });
+    // }, []);
 
     const uploadImage = async () => {
       const data = new FormData();
@@ -361,6 +331,11 @@ export default function Page() {
               className="flex w-full focus:outline-none pl-4 h-10 bg-black border-b-1 border-b-gray-400 text-white"
               onChange={(e) => {
                 setInput(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !!input) {
+                  send();
+                }
               }}
             />
           </div>

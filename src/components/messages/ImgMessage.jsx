@@ -4,22 +4,36 @@ function ImgMessage({ name, src, time, text, me }) {
   // console.log(text)
   const isMe = name === me;
   return (
-    <div className={`flex items-start gap-2.5 ${
-      isMe ? "justify-end" : "justify-start"
-    }`}>
+    <div
+      className={`flex items-start gap-2.5 ${
+        isMe ? "justify-end" : "justify-start"
+      }`}
+    >
       <div className="flex flex-col gap-1">
-        <div className={`flex flex-col w-full max-w-[326px] leading-1.5 p-4 border-gray-200 rounded-b-xl ${
-          isMe ? "rounded-l-xl bg-[#95A4FC]" : "rounded-r-xl bg-[#E5ECF6]"
-        }`}>
+        <div
+          className={`flex flex-col w-full max-w-[326px] leading-1.5 p-4 border-gray-200 rounded-b-xl ${
+            isMe ? "rounded-l-xl bg-[#95A4FC]" : "rounded-r-xl bg-[#E5ECF6]"
+          }`}
+        >
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
-            <span className="text-[16px] font-semibold text-gray-900 line-clamp-1 text-ellipsis">
+            <span
+              className={`text-[16px] line-clamp-1 text-ellipsis ${
+                isMe ? "text-white" : "text-gray-900"
+              }`}
+            >
               {name}
             </span>
-            <span className="text-[12px] font-normal text-gray-800">
+            <span
+              className={`text-[12px] ${isMe ? "text-white" : "text-gray-800"}`}
+            >
               {time}
             </span>
           </div>
-          <p className="text-sm font-normal text-[14px] py-1  font-Gabarito text-gray-900">
+          <p
+            className={`text-sm font-normal text-[14px] py-1 font-RobotoMono text-gray-900 ${
+              isMe ? "text-white" : "text-gray-900"
+            }`}
+          >
             {text}{" "}
           </p>
           <div className="group relative my-2.5">

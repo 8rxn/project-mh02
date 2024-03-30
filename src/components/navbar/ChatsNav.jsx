@@ -114,11 +114,11 @@ export default function ChatsNav() {
                   </div>
                 </div>
                 <p className="text-white font-RobotoMono text-lg">OR</p>
-                <div className="w-full">
+                <div className="w-full flex flex-col gap-3 items-start">
                   <p className="mb-2 text-white text-xl font-RobotoMono">
                     Create a Chat Room:
                   </p>
-                  <div className="flex flex-col gap-2 justify-center">
+                  <div className="w-full flex flex-col gap-2 justify-center">
                     <Input
                       type="text"
                       variant={"underlined"}
@@ -129,11 +129,19 @@ export default function ChatsNav() {
                     />
                     <Button
                       onPress={onClose}
-                      className="rounded-md text-gray-900 font-RobotoMono bg-[#95A4FC]"
+                      className="text-gray-900 rounded-md w-full font-RobotoMono bg-[#95A4FC]"
                     >
                       Create
                     </Button>
                   </div>
+                  <p className="text-white font-RobotoMono text-lg text-center w-full">OR</p>
+                  <Button
+                    className="flex items-center justify-center rounded-md text-gray-900 w-full font-RobotoMono bg-[#95A4FC]"
+                  >
+                    <a href="/custom" className="w-full">
+                    Create Custom Chat Room
+                    </a>
+                  </Button>
                 </div>
               </div>
             )}

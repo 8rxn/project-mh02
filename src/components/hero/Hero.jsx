@@ -6,15 +6,17 @@ export default function Hero() {
   return (
     <GridBackground>
       <div className="h-[65%] flex flex-col items-center justify-center text-center gap-2 sm:gap-4 mt-10">
-        <div className="flex max-w-[95%] sm:max-w-auto text-3xl sm:text-4xl lg:text-7xl font-RobotoMono">
+        <div className="flex max-w-[95%] sm:max-w-auto font-RobotoMono text-2xl sm:text-3xl lg:text-6xl">
           <p className="text-white">
-            <span className="text-[#95A4FC]">WeaveChat:</span> Elevating
-            Customer Support!
+            <span className="text-[#95A4FC] text-3xl sm:text-4xl lg:text-7xl">WeaveChat:</span> <br /> Hyper parallel Decentralized Communities
           </p>
         </div>
         <p className="max-w-lg font-RobotoMono font-light text-sm sm:text-lg md:text-2xl text-gray-400">
-          Enhance Support:
+          Enhance Community:
           <br /> Decentralized Chat + AI Assistant!
+          <br /> <span className="text-xs  sm:text-base md:text-xl">
+          Built on Hyper parallel AO
+          </span>
         </p>
         <Button>
           <ConnectButton

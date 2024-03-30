@@ -15,7 +15,11 @@ import {
 export default function HomeNav() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = [{name: "Dashboard", link: "/chats"}, {name: "Features", link: "#WcFeatures"}, {name: "Contact", link: "#Contact"}];
+  const menuItems = [
+    { name: "Communities", link: "/chats" },
+    { name: "Features", link: "#WcFeatures" },
+    { name: "Contact", link: "#Contact" },
+  ];
 
   return (
     <Navbar
@@ -40,18 +44,21 @@ export default function HomeNav() {
       />
       <NavbarContent className="hidden sm:flex gap-10" justify="end">
         <NavbarItem>
-          <Link className="text-white font-RobotoMono" href="/chats">
-            Dashboard
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link className="text-white font-RobotoMono" href="#WcFeatures">
+          <Link className="text-white font-RobotoMono" href="#Features">
             Features
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link className="text-white font-RobotoMono" href="#Contact">
             Contact
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link
+            className="text-white font-RobotoMono border-b border-l-gray-800  bg-gray-800/10 "
+            href="/chats"
+          >
+           Dive in
           </Link>
         </NavbarItem>
       </NavbarContent>

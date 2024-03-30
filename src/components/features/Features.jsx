@@ -28,26 +28,25 @@ export default function Features() {
 const items = [
   {
     title: "Hyper",
-    description: "Explore the birth of groundbreaking ideas and inventions.",
+    description: "Large Scale distributed Compute powered by AO",
     className: "md:col-span-2",
     icon: <FaBoltLightning className="h-12 w-12 text-white" />,
   },
   {
-    title: "Parallel",
-    description: "Dive into the transformative power of technology.",
+    title: "Customizable & Adaptive",
+    description: "Create your own Chatroom and Bots just the way suited to your needs",
     className: "md:col-span-1",
     icon: <FaRegCircle className="h-12 w-12 text-white" />,
   },
   {
     title: "Decentralized",
-    description: "Discover the beauty of thoughtful and functional design.",
+    description: "Decentralized Chat for all communities",
     className: "md:col-span-1",
     icon: <LiaNetworkWiredSolid className="h-12 w-12 text-white" />,
   },
   {
     title: "Permaweb Chatroom",
-    description:
-      "Understand the impact of effective communication in our lives.",
+    description: "Permaweb storage for all messages and media files.",
     className: "md:col-span-2",
     icon: <TbWorldLongitude className="h-12 w-12 text-white" />,
   },

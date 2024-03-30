@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { GrAttachment } from "react-icons/gr";
 import TextMessage from "../../components/messages/TextMessage";
 import ImgMessage from "../../components/messages/ImgMessage";
 import ChatNav from "../../components/navbar/ChatNav";
@@ -29,6 +30,7 @@ export default function page() {
 
   const chats = [];
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [messages, setMessages] = useState([...messagesinit]);
 
   const sendMessages = async (msg) => {
@@ -61,7 +63,6 @@ export default function page() {
 
     console.log(rz);
   };
-
 
   const botCommand = async (bot) => {
     const rz = await message({
@@ -112,7 +113,7 @@ export default function page() {
 
   return (
     <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
-      <div className="relative flex flex-col w-full lg:w-[300px] bg-black mx-auto mt-2 max-h-[720px]">
+      <div className="relative flex flex-col w-full mt-[200px] lg:mt-0 lg:w-[300px] bg-black mx-auto max-h-[720px]">
         <div className="text-white border-[1px] border-gray-700 rounded-xl min-h-[300px] max-h-[350px]">
           <p className="text-white p-4 text-lg font-bold border-b-1 border-b-gray-700">
             All Chats
@@ -194,21 +195,26 @@ export default function page() {
           tags: "",
         }),
       });
-    }
+    };
 
     return (
       <div className="flex flex-row items-center h-16 rounded-b-xl p-4 bg-black w-full border-[1px] border-gray-700">
         <div className="flex-grow">
-          <div className="relative w-full">
-            <div className="flex">
+          <div className="relative flex justify-start items-center">
+            <div>
               <input
                 type="file"
                 onChange={(e) => setFile(e.target.value)}
                 Upload
-                aria-label="  Upload"
+                aria-label="Upload"
               />
               {file && (
-                <button className="bg-gray-50" onClick={() => uploadImage(file)}>Upload</button>
+                <button
+                  className="bg-gray-50 absolute z-10"
+                  onClick={() => uploadImage(file)}
+                >
+                  Upload
+                </button>
               )}
             </div>
 

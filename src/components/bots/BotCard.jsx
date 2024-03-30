@@ -94,14 +94,16 @@ function BotModal({ botKey, bot }) {
             <>
               <ModalHeader className="flex flex-col">
                 <p className="text-xl font-RobotoMono text-white">{bot.Name}</p>
-                <p className="text-md font-RobotoMono text-gray-400">@{botKey}</p>
+                <p className="text-md font-RobotoMono text-gray-400">
+                  @{botKey}
+                </p>
               </ModalHeader>
               <ModalBody className="text-white font-RobotoMono">
                 <p>{bot.Description}</p>
                 <div className="bg-slate-800 pt-2 pb-4 px-4 rounded-md">
                   <p className="font-RobotoMono text-lg mb-4">Example:</p>
                   <TextMessage
-                    message={bot.sample}
+                    message={`@${botKey} ${bot.sample}`}
                     name={"User"}
                     time={"12:00"}
                   />

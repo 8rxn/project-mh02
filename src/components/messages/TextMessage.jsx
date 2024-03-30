@@ -15,7 +15,7 @@ const isMe = name === me;
       >
         <div className="flex items-center space-x-2 rtl:space-x-reverse">
           <span
-            className={`text-[16px] font-semibold line-clamp-1 text-ellipsis ${
+            className={`text-[16px]line-clamp-1 text-ellipsis ${
               isMe ? "text-white" : "text-gray-900"
             }`}
           >
@@ -30,7 +30,7 @@ const isMe = name === me;
           </span>
         </div>
         <p
-          className={`flex overflow-x-scroll text-[14px] font-normal py-1 font-RobotoMono ${
+          className={`flex overflow-x-scroll custom-scrollbar text-[14px] font-normal py-1 font-RobotoMono ${
             isMe ? "text-white" : "text-gray-900"
           }`}
         >

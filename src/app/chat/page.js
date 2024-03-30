@@ -42,8 +42,8 @@ export default function page() {
     setMessages([
       ...messages,
       {
-        message: msg,
-        name: (await window.arweaveWallet.getActiveAddress()).split(" ")[1],
+        Data: msg,
+        From: (await window.arweaveWallet.getActiveAddress()).split(" ")[1],
       },
     ]);
   };
@@ -185,7 +185,7 @@ export default function page() {
       </div>
       <div className="w-full bg-black mx-auto mt-2 max-h-[400px]">
         <ChatNav />
-        
+
         <div className="mx-auto w-auto overflow-auto relative bg-[#080808]">
           <ScrollShadow
             hideScrollBar

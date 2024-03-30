@@ -20,8 +20,6 @@ export default function Page() {
   const process = "mK6hl6stBOfK1m66TpmYQ_3RG_FrRXWsJSdGTV6__i8";
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [nextIndex, setNextIndex] = useState(0);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [messages, setMessages] = useState([]);
   const [myId, setMyId] = useState("");
 
@@ -51,6 +49,7 @@ export default function Page() {
   };
 
   const sendBotCommand = async (msg, bot) => {
+    console.log(bot, msg);
     const rz = await message({
       process,
       signer: createDataItemSigner(window.arweaveWallet),
@@ -126,15 +125,14 @@ export default function Page() {
       process,
       tags: [{ name: "Action", value: "#Inbox" }],
     });
-
-    //console.log(rz);
+    console.log("rz", rz);
     return Promise.resolve(
       rz?.Messages[0]?.Tags?.find((t) => t.name == "InboxCount").value
     );
   };
 
   async function getPrevMessages() {
-    //console.log("called getPrevMessages");
+    console.log("called getPrevMessages");
     const rz = await dryrun({
       process,
       tags: [
@@ -149,24 +147,23 @@ export default function Page() {
     return Promise.resolve(rz?.Messages[0]?.Tags);
   }
 
-  async function fetchNewMessages() {
-    console.log("fetchNewMessages called");
-    const count = messages.length;
+  // async function fetchNewMessages() {
+  //   console.log("fetchNewMessages called");
 
-    const currCount = getInboxCount();
+  //   const currCount = await getInboxCount();
+  //   console.log("currCount", currCount);
+  //   if (currCount > messages.length) {
+  //     const rz = await getPrevMessages();
 
-    if (currCount > count) {
-      const rz = await getPrevMessages();
+  //     // console.log(rz.filter((t) => t.name == "Messages")[0].value);
 
-      // console.log(rz.filter((t) => t.name == "Messages")[0].value);
+  //     const msgs = JSON.parse(
+  //       rz.filter((t) => t.name == "Messages")[0].value
+  //     ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
 
-      const msgs = JSON.parse(
-        rz.filter((t) => t.name == "Messages")[0].value
-      ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
-
-      setMessages(msgs);
-    }
-  }
+  //     setMessages(msgs);
+  //   }
+  // }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
@@ -192,15 +189,14 @@ export default function Page() {
     init();
   }, [myId]);
 
-  useEffect(() => {
-    const fetchInterval = setInterval(() => {
-      console.log("intervalllll");
-      fetchNewMessages();
-    }, 4000);
+  // useEffect(() => {
+  //   const fetchInterval = setInterval(() => {
 
-    return () => clearInterval(fetchInterval);
-}, []);
+  //     // fetchNewMessages();
+  //   }, 4000);
 
+  //   return () => clearInterval(fetchInterval);
+  // }, []);
 
   return (
     <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
@@ -239,8 +235,12 @@ export default function Page() {
             {messages.length > 0 &&
               messages?.map(({ Data, From, Timestamp }, index) => {
                 const textContent = Data.includes("text-content:")
-                  ? Data.split("text-content:")[1]
+                  ? Data.split("text-content:")[1].includes("bot-name:")
+                    ? Data.split("text-content:")[1].split("bot-name:")[0]
+                    : Data.split("text-content:")[1]
                   : Data;
+
+                const botName = Data.split("bot-name:")[1];
 
                 const imageId = Data.split("image-id:")[1]
                   ?.split("text-content:")[0]
@@ -251,7 +251,7 @@ export default function Page() {
                     // eslint-disable-next-line react/jsx-key
                     <>
                       <ImgMessage
-                        name={From}
+                        name={botName !== undefined ? botName : From}
                         time={Timestamp}
                         text={textContent}
                         src={"https://api.liteseed.xyz/data/" + imageId}
@@ -264,7 +264,7 @@ export default function Page() {
                     <TextMessage
                       key={index}
                       message={Data}
-                      name={From}
+                      name={botName !== undefined ? botName : From}
                       time={Timestamp}
                       me={myId}
                     />
@@ -273,7 +273,11 @@ export default function Page() {
               })}
           </ScrollShadow>
 
-          <Input sendMessage={sendMessages} sendBotCommand={sendBotCommand} />
+          <Input
+            sendMessage={sendMessages}
+            sendBotCommand={sendBotCommand}
+            key={"input-field"}
+          />
         </div>
       </div>
     </div>
@@ -290,8 +294,8 @@ export default function Page() {
     const send = async () => {
       if (input.startsWith("@")) {
         const bot = input.split("@")[1].split(" ")[0];
-        const msg = input.split("@")[1].split(" ")[1];
-        await sendBotCommand(bot, msg);
+        const msg = input.split("@")[1].split(bot)[1];
+        await sendBotCommand(msg, bot);
       }
 
       await sendMessage(input);
@@ -306,11 +310,7 @@ export default function Page() {
         }
 
         return () => {
-          input.removeEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-              send();
-            }
-          });
+          input.removeEventListener("keydown");
         };
       });
     }, []);

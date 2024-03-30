@@ -74,7 +74,7 @@ const Card = ({ className, children }) => {
 
 const CardTitle = ({ className, children }) => {
   return (
-    <h4 className={cn("text-white font-bold tracking-wide mt-2 text-xl", className)}>
+    <h4 className={cn("text-white font-bold font-RobotoMono tracking-wide mt-2 text-xl", className)}>
       {children}
     </h4>
   );
@@ -82,7 +82,7 @@ const CardTitle = ({ className, children }) => {
 
 const CardSubTitle = ({ className, children }) => {
   return (
-    <h4 className={cn("text-gray-400 font-regular tracking-wide mt-1", className)}>
+    <h4 className={cn("text-gray-400 font-regular font-RobotoMono tracking-wide mt-1", className)}>
       {children}
     </h4>
   );

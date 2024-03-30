@@ -16,7 +16,7 @@ export default function Home() {
               <h1 className="text-2xl md:text-4xl font-RobotoMono text-white">
                 Address Consumer Issues With
                 <br />
-                <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none text-[#95A4FC] font-bold">
+                <span className="text-4xl md:text-[6rem] mt-1 leading-none text-[#95A4FC] font-bold">
                   WeaveChat
                 </span>
               </h1>

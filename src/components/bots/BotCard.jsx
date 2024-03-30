@@ -56,8 +56,8 @@ export default function BotCard() {
           <FaRobot />
         </p>
         <div className="flex flex-col items-start">
-          <p className="text-md font-bold text-white">Lorem Ipsum Bot</p>
-          <p className="text-sm font-bold text-gray-400">@loremipsum</p>
+          <p className="text-md font-RobotoMono text-white">Lorem Ipsum Bot</p>
+          <p className="text-sm font-RobotoMono text-gray-400">@loremipsum</p>
         </div>
       </div>
       <Tooltip content="Know More" className="cursor-pointer">
@@ -78,19 +78,19 @@ export default function BotCard() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col">
-                <p className="text-xl font-bold text-white">Lorem Ipsum Bot</p>
-                <p className="text-md font-regular text-gray-400">
+                <p className="text-xl font-RobotoMono text-white">Lorem Ipsum Bot</p>
+                <p className="text-md font-RobotoMono text-gray-400">
                   @loremipsum
                 </p>
               </ModalHeader>
-              <ModalBody className="text-white">
+              <ModalBody className="text-white font-RobotoMono">
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Nullam pulvinar risus non risus hendrerit venenatis.
                   Pellentesque sit amet hendrerit risus, sed porttitor quam.
                 </p>
                 <div className="bg-slate-800 pt-2 pb-4 px-4 rounded-md">
-                  <p className="font-bold text-lg mb-4">Example:</p>
+                  <p className="font-RobotoMono text-lg mb-4">Example:</p>
                   <TextMessage
                     message={"Mumbaiche havamana kasa aahe?"}
                     name={"User"}

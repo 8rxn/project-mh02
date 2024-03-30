@@ -11,7 +11,6 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
-import { ConnectButton } from "arweave-wallet-kit";
 
 export default function HomeNav() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -29,7 +28,7 @@ export default function HomeNav() {
             className="flex justify-center items-center gap-2 font-RobotoMono text-md sm:text-3xl"
             href="/"
           >
-            <img src="/logo.png" alt="logo" className="sm:w-[40px]" />
+            <img src="/logo.png" alt="logo" className="w-[30px] sm:w-[40px]" />
             <p>WeaveChat</p>
           </a>
         </NavbarBrand>

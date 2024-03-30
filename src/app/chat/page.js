@@ -14,16 +14,22 @@ import {
   createDataItemSigner,
   dryrun,
 } from "@permaweb/aoconnect/browser";
-import next from "next";
 
-export default function page() {
+export default function Page() {
   const chats = [];
 
   const process = "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg";
 
+
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [nextIndex, setNextIndex] = useState(-1);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [messages, setMessages] = useState([]);
+
+
+  const [myId,setMyId] = useState("")
 
   const sendMessages = async (msg) => {
     const rz = await message({
@@ -43,7 +49,7 @@ export default function page() {
       ...messages,
       {
         Data: msg,
-        From: (await window.arweaveWallet.getActiveAddress()).split(" ")[1],
+        From: await window.arweaveWallet.getActiveAddress(),
       },
     ]);
   };
@@ -151,6 +157,7 @@ export default function page() {
   //   return Promise.resolve(rz);
   // }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     async function init() {
       // const registration = await checkRegisteration();
@@ -161,10 +168,20 @@ export default function page() {
       console.log(rz.filter((t) => t.name == "Messages")[0].value);
       // console.log(r);
       setMessages(rz.filter((t) => t.name == "Messages")[0].value);
+     
+      const pr = await window.arweaveWallet.getActiveAddress()
+      if(pr){
+        setMyId(pr)
+      }
+      else{
+        setMyId(async()=>await window.arweaveWallet.getActiveAddress())
+      }
+
+      console.log(myId,pr)
     }
 
     init();
-  }, []);
+  }, [myId]);
 
   return (
     <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
@@ -196,7 +213,10 @@ export default function page() {
             {messages?.map(({ Data, From, time }, index) => {
               if (Data?.startsWith("image-id:")) {
                 return (
+                  // eslint-disable-next-line react/jsx-key
                   <ImgMessage
+                    name={From}
+                    time={time}
                     src={`https://api.liteseed.xyz/data/${Data.split(":")[1]}`}
                   />
                 );
@@ -207,6 +227,7 @@ export default function page() {
                     message={Data}
                     name={From}
                     time={time}
+                    me={myId}
                   />
                 );
               }

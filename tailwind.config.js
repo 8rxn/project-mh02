@@ -21,9 +21,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        Poppins: ["Poppins", "sans-serif"],
-        Gabarito: ["Gabarito", "sans-serif"],
-        Aldrich: ["Aldrich", "sans-serif"],
+        WorkSans: ["Work Sans", "sans-serif"],
+        RobotoMono: ["Roboto Mono", "monospace"],
       },
     },
   },

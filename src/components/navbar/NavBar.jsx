@@ -11,6 +11,7 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
+import { ConnectButton } from "arweave-wallet-kit";
 
 export default function HomeNav() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -20,47 +21,39 @@ export default function HomeNav() {
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
-      className="fixed top-7 bg-[#ffffff] bg-opacity-5 backdrop-blur-md text-white border-[1px] border-gray-600 w-[95vw] sm:w-[80vw] mx-auto rounded-full shadow-lg"
+      className="fixed top-0 bg-[#ffffff] bg-opacity-5 backdrop-blur-md text-white border-b-[1px] border-gray-600 w-full mx-auto shadow-lg py-0 sm:py-2"
     >
       <NavbarContent>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
-        />
         <NavbarBrand>
-          <a className="font-bold font-Gabarito text-md sm:text-xl" href="/">
-            WeaveChat
+          <a
+            className="flex justify-center items-center gap-2 font-RobotoMono text-md sm:text-3xl"
+            href="/"
+          >
+            <img src="/logo.png" alt="logo" className="sm:w-[40px]" />
+            <p>WeaveChat</p>
           </a>
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-10" justify="center">
+      <NavbarMenuToggle
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        className="sm:hidden"
+      />
+      <NavbarContent className="hidden sm:flex gap-10" justify="end">
         <NavbarItem>
-          <Link className="text-white font-Poppins" href="#">
+          <Link className="text-white font-RobotoMono" href="#">
             Features
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#" className="text-white font-Poppins">
+          <Link href="#" className="text-white font-RobotoMono">
             About
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className="text-white font-Poppins" href="#">
+          <Link className="text-white font-RobotoMono" href="#">
             Support
           </Link>
-        </NavbarItem>
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem>
-            <Button
-              as={Link}
-              href="/"
-              variant="flat"
-              className="text-white font-Poppins bg-opacity-100 bg-blue-500 font-medium text-sm sm:text-md"
-            >
-              Connect Wallet
-            </Button>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="bg-black mt-10">
@@ -70,7 +63,7 @@ export default function HomeNav() {
               color="white"
               href="#"
               size="lg"
-              className="font-Poppins text-white text-lg w-full bg-black"
+              className="font-RobotoMono text-white text-lg w-full bg-black"
             >
               {item}
             </Link>

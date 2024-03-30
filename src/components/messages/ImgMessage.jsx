@@ -1,15 +1,15 @@
 import React from "react";
 
-function ImgMessage({ src }) {
+function ImgMessage({name, src, time }) {
   return (
     <div className="flex items-start gap-2.5">
       <div className="flex flex-col gap-1">
         <div className="flex flex-col w-full max-w-[326px] leading-1.5 p-4 border-gray-200 rounded-e-xl rounded-es-xl bg-[#E5ECF6]">
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
-            <span className="text-[16px] font-semibold text-gray-900">
-              Assistant
+            <span className="text-[16px] font-semibold text-gray-900 line-clamp-1 text-ellipsis">
+              {name}
             </span>
-            <span className="text-[12px] font-normal text-gray-800">12:40</span>
+            <span className="text-[12px] font-normal text-gray-800">{time}</span>
           </div>
           <p className="text-sm font-normal text-[14px] py-1  font-Gabarito text-gray-900">
             This is the new office{" "}
@@ -45,7 +45,7 @@ function ImgMessage({ src }) {
                 <div className="tooltip-arrow" data-popper-arrow></div>
               </div>
             </div>
-            <img src={src} alt="samle" className="rounded-lg" />
+            <img src={src} alt="image-to-download" className="rounded-lg" />
           </div>
         </div>
       </div>

@@ -62,7 +62,7 @@ function BotModal({ botKey, bot }) {
   console.log(botKey);
   return (
     <div
-      className="flex w-full justify-between items-center px-2 py-2 border-[1px] border-gray-700 cursor-pointer hover:bg-gray-900"
+      className="flex w-full justify-between items-center px-2 py-2 border-[1px] border-gray-700 cursor-pointer bg-[#0b0b0b] hover:bg-gray-900"
       onClick={onOpen}
     >
       <div className="flex gap-3 items-center">
@@ -70,8 +70,8 @@ function BotModal({ botKey, bot }) {
           <FaRobot />
         </p>
         <div className="flex flex-col items-start">
-          <p className="text-md font-bold text-white">{bot?.Name}</p>
-          <p className="text-sm font-bold text-gray-400">@{botKey}</p>
+          <p className="text-md font-RobotoMono text-white">{bot?.Name}</p>
+          <p className="text-sm font-RobotoMono text-gray-400">@{botKey}</p>
         </div>
       </div>
       <Tooltip content="Know More" className="cursor-pointer">
@@ -92,13 +92,13 @@ function BotModal({ botKey, bot }) {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col">
-                <p className="text-xl font-bold text-white">{bot.Name}</p>
-                <p className="text-md font-regular text-gray-400">@{botKey}</p>
+                <p className="text-xl font-RobotoMono text-white">{bot.Name}</p>
+                <p className="text-md font-RobotoMono text-gray-400">@{botKey}</p>
               </ModalHeader>
-              <ModalBody className="text-white">
+              <ModalBody className="text-white font-RobotoMono">
                 <p>{bot.Description}</p>
                 <div className="bg-slate-800 pt-2 pb-4 px-4 rounded-md">
-                  <p className="font-bold text-lg mb-4">Example:</p>
+                  <p className="font-RobotoMono text-lg mb-4">Example:</p>
                   <TextMessage
                     message={bot.sample}
                     name={"User"}

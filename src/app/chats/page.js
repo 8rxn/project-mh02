@@ -17,7 +17,7 @@ function Page() {
         </div>
         <div className=" text-white md:max-h-[85vh] w-full lg:max-w-[300px]">
           <div className="border-1 rounded-md border-gray-700 h-full w-full">
-            <p className="font-bold text-2xl my-3 mx-4">Explore Bots</p>
+            <p className="font-RobotoMono text-xl my-3 mx-4">Explore Bots</p>
             <ScrollShadow hideScrollBar className="h-full w-full">
               <BotCard />
             </ScrollShadow>

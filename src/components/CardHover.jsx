@@ -28,7 +28,7 @@ const CardHover = ({ items, className }) => {
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-gray-800 block rounded-md"
+                className="absolute inset-0 h-full w-full bg-gray-900 block rounded-md"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -58,7 +58,7 @@ const Card = ({ className, children }) => {
   return (
     <div
       className={cn(
-        "rounded-sm flex justify-between items-center h-full w-full p-2 overflow-hidden bg-black border border-gray-600 group-hover:border-slate-700 relative z-20",
+        "rounded-sm flex justify-between items-center h-full w-full p-2 overflow-hidden bg-[#0b0b0b] border border-gray-600 group-hover:border-slate-700 relative z-20",
         className
       )}
     >
@@ -74,7 +74,7 @@ const Card = ({ className, children }) => {
 
 const CardTitle = ({ className, children }) => {
   return (
-    <h4 className={cn("text-white font-bold tracking-wide mt-2 text-xl", className)}>
+    <h4 className={cn("text-white font-bold font-RobotoMono tracking-wide mt-2 text-xl", className)}>
       {children}
     </h4>
   );
@@ -82,7 +82,7 @@ const CardTitle = ({ className, children }) => {
 
 const CardSubTitle = ({ className, children }) => {
   return (
-    <h4 className={cn("text-gray-400 font-regular tracking-wide mt-1", className)}>
+    <h4 className={cn("text-gray-400 font-regular font-RobotoMono tracking-wide mt-1", className)}>
       {children}
     </h4>
   );

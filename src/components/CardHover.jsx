@@ -10,7 +10,7 @@ const CardHover = ({ items, className }) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-5 max-w-auto xl:max-w-[80vw] mx-auto",
+        "grid grid-cols-1 py-5 w-full mx-auto",
         className
       )}
     >
@@ -39,10 +39,9 @@ const CardHover = ({ items, className }) => {
               />
             )}
           </AnimatePresence>
-          <Card>
+          <Card className="flex">
             <CardTitle>{item.title}</CardTitle>
             <CardSubTitle>{item.roomid}</CardSubTitle>
-            <CardDescription>{item.description}</CardDescription>
           </Card>
         </Link>
       ))}

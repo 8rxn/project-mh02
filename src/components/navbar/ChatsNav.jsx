@@ -41,23 +41,7 @@ export default function ChatsNav() {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link className="text-white font-Poppins" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="#" className="text-white font-Poppins">
-            About
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link className="text-white font-Poppins" href="#">
-            Support
-          </Link>
-        </NavbarItem>
-      </NavbarContent>
+
       <NavbarContent justify="end">
         <NavbarItem>
           <Tooltip content="Join/Create a Chat">
@@ -103,20 +87,6 @@ export default function ChatsNav() {
           </Modal>
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu className="bg-black mt-10">
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color="white"
-              href="#"
-              size="lg"
-              className="font-Poppins text-white text-lg w-full bg-black"
-            >
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu>
     </Navbar>
   );
 }

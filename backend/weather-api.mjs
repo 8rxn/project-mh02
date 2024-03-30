@@ -43,16 +43,6 @@ async function runChat(question) {
   const chat = model.startChat({
     generationConfig,
     safetySettings,
-    // history: [
-    //   {
-    //     role: "user",
-    //     parts: [
-    //       {
-    //         text: 'Extract the latitute and longitute out of following:\n\nConstrains:\nLatitude, decimal (-90; 90).\nLatitude, decimal (-90; 90).\n\nQuestion: What is weather in Indore?\n\nOutput: {\nlat: "DG",\nlon: "SF"\n}\n\nOnly output the object, and nothing else.',
-    //       },
-    //     ],
-    //   },
-    // ],
   });
 
   const result = await chat.sendMessage(
@@ -87,9 +77,11 @@ async function getWeather(question) {
       return returnMessage;
     } catch (error) {
       console.error("Request failed:", error);
+      return "Sorry, I could not fetch weather details for the provided city."
     }
   } else {
     console.log("No city found in response");
+    return "Sorry, I could not extract the city from the question.";
   }
 }
 

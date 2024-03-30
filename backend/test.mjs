@@ -3,8 +3,8 @@ import axios from 'axios';
 async function testPostRequest() {
     try {
         const response = await axios.post('http://localhost:3000/bot-message', {
-            botHandle: "@weather-bot",
-            message: "Delhi mein mausam kaisa hai?"
+            botHandle: "@crypto-bot",
+            message: "Solana ka INR mein kya value hai?"
         });
 
         console.log('Response:', response.data);
@@ -20,3 +20,4 @@ testPostRequest();
 
 // const question = "Punemadhye havamaan kasam aahe?";
 // getWeather(question).then(console.log);
+

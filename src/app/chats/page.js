@@ -34,7 +34,7 @@ function Page() {
 export default Page;
 
 
-const saareChats = [
+const allChats = [
   {
     title: "Chat Room 1",
     roomid: "mK6hl6stBOfK1m66TpmYQ_3RG_FrRXWsJSdGTV6__i8",

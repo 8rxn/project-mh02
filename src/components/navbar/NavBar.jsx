@@ -15,7 +15,7 @@ import {
 export default function HomeNav() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const menuItems = [{name: "Dashboard", link: "/chats"}, {name: "Features", link: "#"}, {name: "Contact", link: "#Contact"}];
+  const menuItems = [{name: "Dashboard", link: "/chats"}, {name: "Features", link: "#WcFeatures"}, {name: "Contact", link: "#Contact"}];
 
   return (
     <Navbar
@@ -45,7 +45,7 @@ export default function HomeNav() {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#" className="text-white font-RobotoMono">
+          <Link className="text-white font-RobotoMono" href="#WcFeatures">
             Features
           </Link>
         </NavbarItem>

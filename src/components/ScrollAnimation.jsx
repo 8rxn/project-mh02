@@ -63,10 +63,10 @@ export const Card = ({ rotate, scale }) => {
         boxShadow:
           "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
-      className="max-w-5xl mx-auto w-full border-4 border-[#6C6C6C] p-6 bg-[#111] rounded-[30px] shadow-2xl"
+      className="max-w-5xl mx-auto w-full border-4 border-[#6C6C6C] p-6 bg-[#000] rounded-[30px] shadow-2xl"
     >
       <img
-        src="https://res.cloudinary.com/darx97f61/image/upload/v1711107227/random/chats_t3hctn.jpg"
+        src="https://res.cloudinary.com/darx97f61/image/upload/v1711815760/random/chats_gw9uvc.jpg"
         alt="chats"
         className="w-full object-cover rounded-xl"
       />

@@ -3,12 +3,13 @@ import NavBar from "../components/navbar/NavBar";
 import Footer from "../components/footer/Footer";
 import Hero from "../components/hero/Hero";
 import ScrollAnimation from "../components/ScrollAnimation";
+import Features from "../components/features/Features";
 
 export default function Home() {
   return (
     <>
       <NavBar />
-      <div className="flex min-h-screen flex-col items-center justify-between px-24 pt-24">
+      <div className="flex min-h-screen flex-col items-center justify-between sm:px-6 lg:px-24 pt-24">
         <Hero />
         <ScrollAnimation
           titleComponent={
@@ -23,6 +24,7 @@ export default function Home() {
             </>
           }
         />
+        <Features/>
       </div>
       <Footer />
     </>

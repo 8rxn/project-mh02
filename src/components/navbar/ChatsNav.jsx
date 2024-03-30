@@ -36,7 +36,7 @@ export default function ChatsNav() {
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
       justify={"center"}
-      className="bg-[#0b0b0b] bg-opacity-5 backdrop-blur-md text-white border-[1px] border-gray-600 max-w-full mx-auto rounded-md shadow-lg"
+      className="bg-[#0b0b0b] text-white border-[1px] border-gray-600 max-w-full mx-auto rounded-md shadow-lg"
     >
       <NavbarContent>
         <NavbarBrand>
@@ -138,7 +138,7 @@ export default function ChatsNav() {
                   <Button
                     className="flex items-center justify-center rounded-md text-gray-900 w-full font-RobotoMono bg-[#95A4FC]"
                   >
-                    <a href="/custom" className="w-full">
+                    <a href="/custom/chat" className="w-full">
                     Create Custom Chat Room
                     </a>
                   </Button>
@@ -195,7 +195,7 @@ export default function ChatsNav() {
                           <IoMdAddCircle />
                         </p>
                         <p className="text-sm text-white font-RobotoMono">
-                          Upload JSoN
+                          Upload JSON
                         </p>
                       </label>
                       <input
@@ -212,9 +212,11 @@ export default function ChatsNav() {
                     <div className="flex gap-2">
                       <Button
                         onPress={onClose}
-                        className="text-gray-900 rounded-md w-full font-RobotoMono bg-[#95fce7]"
-                      >
-                        View Sample Json
+                        className="flex items-center justify-center rounded-md text-gray-900 w-full font-RobotoMono bg-[#95fce7]"
+                  >
+                    <a href="/custom/bot" className="w-full">
+                    Create Custom Chat Room
+                    </a>
                       </Button>
                       <Button
                         onPress={onClose}

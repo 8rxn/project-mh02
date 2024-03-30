@@ -26,7 +26,7 @@ export default function Page() {
       <NavBar />
       <div className="min-h-screen flex flex-col items-center bg-[#0b0b0b] font-RobotoMono mt-16 sm:mt-24 px-5">
         <p className="text-2xl md:text-4xl text-center text-white mb-3 md:mb-6">
-          Guide: Create a Custom Chat Room
+          Guide: Create a Custom Bot
         </p>
         <div className="flex flex-col items-start gap-4">
           <div className="flex items-start sm:items-center gap-2">
@@ -40,7 +40,7 @@ export default function Page() {
               <p>2</p>
             </div>
             <div className="text-lg text-white max-w-[200px] sm:max-w-full">
-              Submit a description for the Chat Room
+              Submit a description for the Bot
             </div>
           </div>
           <div className="flex items-start sm:items-center gap-2">

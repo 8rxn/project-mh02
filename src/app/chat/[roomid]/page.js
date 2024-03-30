@@ -299,6 +299,7 @@ export default function Page({ params }) {
                           time={Timestamp}
                           text={textContent}
                           src={"https://api.liteseed.xyz/data/" + imageId}
+                          me={myId}
                         />
                       </>
                     );

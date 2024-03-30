@@ -215,7 +215,7 @@ export default function ChatsNav() {
                         className="flex items-center justify-center rounded-md text-gray-900 w-full font-RobotoMono bg-[#95fce7]"
                   >
                     <a href="/custom/bot" className="w-full">
-                    Create Custom Chat Room
+                    Create Custom Chat Bot
                     </a>
                       </Button>
                       <Button

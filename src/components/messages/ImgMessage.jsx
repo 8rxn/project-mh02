@@ -1,11 +1,16 @@
 import React from "react";
 
-function ImgMessage({ name, src, time, text }) {
+function ImgMessage({ name, src, time, text, me }) {
   // console.log(text)
+  const isMe = name === me;
   return (
-    <div className="flex items-start gap-2.5">
+    <div className={`flex items-start gap-2.5 ${
+      isMe ? "justify-end" : "justify-start"
+    }`}>
       <div className="flex flex-col gap-1">
-        <div className="flex flex-col w-full max-w-[326px] leading-1.5 p-4 border-gray-200 rounded-e-xl rounded-es-xl bg-[#E5ECF6]">
+        <div className={`flex flex-col w-full max-w-[326px] leading-1.5 p-4 border-gray-200 rounded-b-xl ${
+          isMe ? "rounded-l-xl bg-[#95A4FC]" : "rounded-r-xl bg-[#E5ECF6]"
+        }`}>
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
             <span className="text-[16px] font-semibold text-gray-900 line-clamp-1 text-ellipsis">
               {name}

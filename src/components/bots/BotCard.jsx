@@ -14,8 +14,6 @@ import { useEffect, useState } from "react";
 import { dryrun } from "@permaweb/aoconnect/browser";
 
 export default function BotCard() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   const process = "Rz6llKMi_m_NPdCtUR1oeI-TXmpCsUbvXsQhjyyEWDc";
 
   const [bots, setBots] = useState([]);
@@ -35,9 +33,12 @@ export default function BotCard() {
 
       const jsonString = rz.Messages[0].Tags.filter((t) => t.name == "Data")[0]
         .value;
-      const botJson = jsonString
-        .replace(/"([^"]+)":/g, '"$1":')
-        .replace(/:"([^"]+)"/g, ':"$1"');
+      const botJson = JSON.parse(
+        jsonString
+          .replace(/"([^"]+)":/g, '"$1":')
+          .replace(/:"([^"]+)"/g, ':"$1"')
+      );
+
       setBots(botJson);
     }
 
@@ -46,6 +47,19 @@ export default function BotCard() {
 
   console.log(bots);
 
+  return (
+    <>
+      {Object.keys(bots).map((key) => (
+        <BotModal key={key} botKey={key} bot={bots[key]}></BotModal>
+      ))}
+    </>
+  );
+}
+
+function BotModal({ botKey, bot }) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  console.log(botKey);
   return (
     <div
       className="flex w-full justify-between items-center px-2 py-2 border-[1px] border-gray-700 cursor-pointer hover:bg-gray-900"
@@ -56,8 +70,8 @@ export default function BotCard() {
           <FaRobot />
         </p>
         <div className="flex flex-col items-start">
-          <p className="text-md font-bold text-white">Lorem Ipsum Bot</p>
-          <p className="text-sm font-bold text-gray-400">@loremipsum</p>
+          <p className="text-md font-bold text-white">{bot?.Name}</p>
+          <p className="text-sm font-bold text-gray-400">@{botKey}</p>
         </div>
       </div>
       <Tooltip content="Know More" className="cursor-pointer">
@@ -78,24 +92,19 @@ export default function BotCard() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col">
-                <p className="text-xl font-bold text-white">Lorem Ipsum Bot</p>
-                <p className="text-md font-regular text-gray-400">
-                  @loremipsum
-                </p>
+                <p className="text-xl font-bold text-white">{bot.Name}</p>
+                <p className="text-md font-regular text-gray-400">@{botKey}</p>
               </ModalHeader>
               <ModalBody className="text-white">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
+                <p>{bot.Description}</p>
                 <div className="bg-slate-800 pt-2 pb-4 px-4 rounded-md">
                   <p className="font-bold text-lg mb-4">Example:</p>
                   <TextMessage
-                    message={"Mumbaiche havamana kasa aahe?"}
+                    message={bot.sample}
                     name={"User"}
                     time={"12:00"}
                   />
+                  {console.log("first", bot.sample)}
                 </div>
               </ModalBody>
             </>

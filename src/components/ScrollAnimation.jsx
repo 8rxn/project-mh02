@@ -30,7 +30,7 @@ export default function ScrollAnimation ({ titleComponent }) {
 
   return (
     <div
-      className="flex justify-center items-center relative p-2 md:p-20 bg-black"
+      className="flex justify-center items-center relative p-2 md:p-20 bg-[#0b0b0b]"
       ref={containerRef}
     >
       <div

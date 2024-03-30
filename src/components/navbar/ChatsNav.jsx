@@ -36,7 +36,7 @@ export default function ChatsNav() {
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
       justify={"center"}
-      className="bg-[#ffffff] bg-opacity-5 backdrop-blur-md text-white border-[1px] border-gray-600 max-w-full mx-auto rounded-md shadow-lg"
+      className="bg-[#0b0b0b] bg-opacity-5 backdrop-blur-md text-white border-[1px] border-gray-600 max-w-full mx-auto rounded-md shadow-lg"
     >
       <NavbarContent>
         <NavbarBrand>
@@ -56,7 +56,7 @@ export default function ChatsNav() {
             <button
               onClick={onOpen}
               variant="flat"
-              className="text-white font-RobotoMono bg-opacity-100 bg-blue-500 font-medium text-xs sm:text-sm py-2 px-3 rounded-sm"
+              className="text-gray-900 font-RobotoMono bg-opacity-100 bg-[#95A4FC] font-medium text-xs sm:text-sm py-2 px-3 rounded-sm"
             >
               <p className="hidden sm:block">New Chat</p>
               <div className="text-white text-lg block sm:hidden">
@@ -68,7 +68,7 @@ export default function ChatsNav() {
             <button
               onClick={onBotOpen}
               variant="flat"
-              className="text-white font-RobotoMono bg-opacity-100 bg-blue-500 font-medium text-xs sm:text-sm py-2 px-3 rounded-sm"
+              className="text-gray-900 font-RobotoMono bg-opacity-100 bg-[#95A4FC] font-medium text-xs sm:text-sm py-2 px-3 rounded-sm"
             >
               Add a Bot
             </button>
@@ -79,7 +79,7 @@ export default function ChatsNav() {
           placement={"center"}
           onOpenChange={onOpenChange}
           size="lg"
-          className="rounded-sm bg-[#111] pt-4 pb-8 px-8"
+          className="rounded-sm bg-gray-900 pt-4 pb-8 px-8"
         >
           <ModalContent className="p-8">
             {(onClose) => (
@@ -106,9 +106,8 @@ export default function ChatsNav() {
                       className="p-0 rounded-md outline-none focus:outline-none border-none focus:border-none text-white font-RobotoMono"
                     />
                     <Button
-                      color="primary"
                       onPress={onClose}
-                      className="rounded-md text-white font-RobotoMono"
+                      className="rounded-md text-gray-900 font-RobotoMono bg-[#95A4FC]"
                     >
                       Join
                     </Button>
@@ -129,9 +128,8 @@ export default function ChatsNav() {
                       className="p-0 rounded-md outline-none focus:outline-none border-none focus:border-none text-white font-RobotoMono"
                     />
                     <Button
-                      color="primary"
                       onPress={onClose}
-                      className="rounded-md text-white font-RobotoMono"
+                      className="rounded-md text-gray-900 font-RobotoMono bg-[#95A4FC]"
                     >
                       Create
                     </Button>
@@ -146,7 +144,7 @@ export default function ChatsNav() {
           placement={"center"}
           onOpenChange={onBotOpenChange}
           size="lg"
-          className="rounded-sm bg-[#111] pt-4 pb-8 px-8"
+          className="rounded-sm bg-gray-900 pt-4 pb-8 px-8"
         >
           <ModalContent className="p-8">
             {(onClose) => (
@@ -205,16 +203,14 @@ export default function ChatsNav() {
                     </div>
                     <div className="flex gap-2">
                       <Button
-                        color="secondary"
                         onPress={onClose}
-                        className="text-white rounded-md w-full font-RobotoMono"
+                        className="text-gray-900 rounded-md w-full font-RobotoMono bg-[#95fce7]"
                       >
                         View Sample Json
                       </Button>
                       <Button
-                        color="primary"
                         onPress={onClose}
-                        className="rounded-md text-white w-full font-RobotoMono"
+                        className="rounded-md text-gray-900 w-full font-RobotoMono bg-[#95A4FC]"
                       >
                         Create
                       </Button>

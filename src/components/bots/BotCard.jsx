@@ -48,7 +48,7 @@ export default function BotCard() {
 
   return (
     <div
-      className="flex w-full justify-between items-center px-2 py-2 border-[1px] border-gray-700 cursor-pointer hover:bg-gray-900"
+      className="flex w-full justify-between items-center px-2 py-2 border-[1px] border-gray-700 cursor-pointer bg-[#0b0b0b] hover:bg-gray-900"
       onClick={onOpen}
     >
       <div className="flex gap-3 items-center">

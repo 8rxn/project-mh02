@@ -55,16 +55,29 @@ async function getPrices(question) {
   );
 
   const response = result.response;
-  const responseText = response.text().replaceAll("```json","").replaceAll("```","").replaceAll(" ","");
+  const responseText = response
+    .text()
+    .replaceAll("```json", "")
+    .replaceAll("```", "")
+    .replaceAll(" ", "");
   const json = JSON.parse(responseText);
   const responseTextShort = json.short;
-//   console.log(json);
+  //   console.log(json);
 
+  const stonksDownImage =
+    "https://api.liteseed.xyz/data/4bb25549-4234-4e18-8216-1aa386ceafb5";
+  const stonksUpImage =
+    "https://api.liteseed.xyz/data/4238ffda-545c-4007-b017-e3edabecd5f8";
 
   const msgObj = data[responseTextShort];
   const replyText = `Here's the latest update on ${json.long} (${msgObj.base_unit}) trading with the Indian Rupee (INR): The current price of ${msgObj.base_unit} stands at ₹${msgObj.last}. This value marks a slight change from the opening price of ₹${msgObj.open}. Today, Ethereum experienced a high of ₹${msgObj.high} and a low of ₹${msgObj.low}. In the trading session, the volume of ETH traded was ${msgObj.volume} ${msgObj.base_unit}. If you're looking to sell ${json.long}, the current asking price is ₹${msgObj.sell}, while buying orders are being placed at around ₹${msgObj.buy}. This data gives you an insight into the market's recent trends and helps inform your trading decisions.`;
 
-  return replyText;
+  const returnObject = {
+    replyText: replyText,
+    image:
+      msgObj.last > msgObj.open? stonksUpImage : stonksDownImage,
+  }
+  return returnObject;
 }
 
 export default getPrices;

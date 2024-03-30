@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import TextMessage from "../../components/messages/TextMessage";
 import ImgMessage from "../../components/messages/ImgMessage";
 import ChatNav from "../../components/navbar/ChatNav";
-import { ScrollShadow, Tooltip } from "@nextui-org/react";
+import { ScrollShadow, Tooltip, image } from "@nextui-org/react";
 import { IoSend } from "react-icons/io5";
 
 import Chat from "../../components/messages/Chat";
@@ -17,23 +17,17 @@ import {
 
 export default function Page() {
   const chats = [];
-
-  const process = "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg";
-
-
+  const process = "mK6hl6stBOfK1m66TpmYQ_3RG_FrRXWsJSdGTV6__i8";
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [nextIndex, setNextIndex] = useState(-1);
-
+  const [nextIndex, setNextIndex] = useState(0);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [messages, setMessages] = useState([]);
-
-
-  const [myId,setMyId] = useState("")
+  const [myId, setMyId] = useState("");
 
   const sendMessages = async (msg) => {
     const rz = await message({
-      process: "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg",
+      process,
       signer: createDataItemSigner(window.arweaveWallet),
       data: msg,
       tags: [
@@ -43,15 +37,40 @@ export default function Page() {
         },
       ],
     });
-    console.log(rz);
 
-    setMessages([
-      ...messages,
-      {
-        Data: msg,
-        From: await window.arweaveWallet.getActiveAddress(),
-      },
-    ]);
+    if (rz) {
+      setMessages([
+        ...messages,
+        {
+          Data: msg,
+          From: await window.arweaveWallet.getActiveAddress(),
+          Timestamp: new Date().toLocaleTimeString(),
+        },
+      ]);
+    }
+  };
+
+  const sendBotCommand = async (msg, bot) => {
+    const rz = await message({
+      process,
+      signer: createDataItemSigner(window.arweaveWallet),
+      data: msg,
+      tags: [
+        {
+          name: "Action",
+          value: "Bot",
+        },
+        {
+          name: "Handle",
+          value: "@" + bot,
+        },
+
+        {
+          name: "Message",
+          value: msg,
+        },
+      ],
+    });
   };
 
   const register = async (msg) => {
@@ -67,7 +86,7 @@ export default function Page() {
       ],
     });
 
-    console.log(rz);
+    //console.log(rz);
   };
 
   const botCommand = async (bot) => {
@@ -86,7 +105,7 @@ export default function Page() {
       ],
     });
 
-    console.log(rz);
+    //console.log(rz);
   };
 
   const uploadImage = async (file) => {
@@ -108,13 +127,14 @@ export default function Page() {
       tags: [{ name: "Action", value: "#Inbox" }],
     });
 
-    console.log(rz);
+    //console.log(rz);
     return Promise.resolve(
       rz?.Messages[0]?.Tags?.find((t) => t.name == "InboxCount").value
     );
   };
 
-  async function getMessages() {
+  async function getPrevMessages() {
+    //console.log("called getPrevMessages");
     const rz = await dryrun({
       process,
       tags: [
@@ -123,65 +143,64 @@ export default function Page() {
           value: process,
         },
         { name: "Action", value: "CheckInbox" },
-        { name: "Index", value: nextIndex.toString() },
       ],
     });
-    console.log(rz);
 
     return Promise.resolve(rz?.Messages[0]?.Tags);
   }
 
-  // async function checkRegisteration() {
-  //   const addrs = (await window.arweaveWallet.getActiveAddress()).split(" ")[1];
+  async function fetchNewMessages() {
+    console.log("fetchNewMessages called");
+    const count = messages.length;
 
-  //   console.log(addrs);
+    const currCount = getInboxCount();
 
-  //   if (!addrs) {
-  //     return Promise.resolve(false);
-  //   }
+    if (currCount > count) {
+      const rz = await getPrevMessages();
 
-  //   const rz = await dryrun({
-  //     process,
-  //     tags: [
-  //       {
-  //         name: "Action",
-  //         value: "Registeration",
-  //       },
-  //       {
-  //         name: "From",
-  //         value: addrs,
-  //       },
-  //     ],
-  //   });
+      // console.log(rz.filter((t) => t.name == "Messages")[0].value);
 
-  //   return Promise.resolve(rz);
-  // }
+      const msgs = JSON.parse(
+        rz.filter((t) => t.name == "Messages")[0].value
+      ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
+
+      setMessages(msgs);
+    }
+  }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     async function init() {
-      // const registration = await checkRegisteration();
-      // console.log(registration);
-      const rz = await getMessages();
-      // console.log(rz);
+      const rz = await getPrevMessages();
 
-      console.log(rz.filter((t) => t.name == "Messages")[0].value);
-      // console.log(r);
-      setMessages(rz.filter((t) => t.name == "Messages")[0].value);
-     
-      const pr = await window.arweaveWallet.getActiveAddress()
-      if(pr){
-        setMyId(pr)
-      }
-      else{
-        setMyId(async()=>await window.arweaveWallet.getActiveAddress())
-      }
+      // console.log(rz.filter((t) => t.name == "Messages")[0].value);
 
-      console.log(myId,pr)
+      const msgs = JSON.parse(
+        rz.filter((t) => t.name == "Messages")[0].value
+      ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
+
+      setMessages(msgs);
+
+      const pr = await window.arweaveWallet.getActiveAddress();
+      if (pr) {
+        setMyId(pr);
+      } else {
+        setMyId(async () => await window.arweaveWallet.getActiveAddress());
+      }
     }
 
     init();
   }, [myId]);
+
+  useEffect(() => {
+    const fetchInterval = setInterval(() => {
+      console.log("intervalllll");
+      fetchNewMessages();
+    }, 4000);
+
+    return () => clearInterval(fetchInterval);
+}, []);
+
 
   return (
     <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
@@ -190,6 +209,13 @@ export default function Page() {
           <p className="text-white p-4 text-lg font-bold border-b-1 border-b-gray-700">
             All Chats
           </p>
+          <button
+            onClick={() => {
+              register();
+            }}
+          >
+            Register if havent
+          </button>
           <ScrollShadow hideScrollBar className="max-h-[300px] overflow-scroll">
             {chats.map(({ chatroom, chatId }, index) => (
               <Chat key={index} chatroom={chatroom} chatId={chatId} />
@@ -210,37 +236,50 @@ export default function Page() {
             offset={30}
             className="flex flex-col gap-2 p-2 max-h-[74dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:min-h-[60vh] 2xl:max-h-[500px] overflow-scroll "
           >
-            {messages?.map(({ Data, From, time }, index) => {
-              if (Data?.startsWith("image-id:")) {
-                return (
-                  // eslint-disable-next-line react/jsx-key
-                  <ImgMessage
-                    name={From}
-                    time={time}
-                    src={`https://api.liteseed.xyz/data/${Data.split(":")[1]}`}
-                  />
-                );
-              } else {
-                return (
-                  <TextMessage
-                    key={index}
-                    message={Data}
-                    name={From}
-                    time={time}
-                    me={myId}
-                  />
-                );
-              }
-            })}
+            {messages.length > 0 &&
+              messages?.map(({ Data, From, Timestamp }, index) => {
+                const textContent = Data.includes("text-content:")
+                  ? Data.split("text-content:")[1]
+                  : Data;
+
+                const imageId = Data.split("image-id:")[1]
+                  ?.split("text-content:")[0]
+                  .trim();
+
+                if (imageId !== undefined) {
+                  return (
+                    // eslint-disable-next-line react/jsx-key
+                    <>
+                      <ImgMessage
+                        name={From}
+                        time={Timestamp}
+                        text={textContent}
+                        src={"https://api.liteseed.xyz/data/" + imageId}
+                      />
+                    </>
+                  );
+                } else {
+                  return (
+                    // eslint-disable-next-line react/jsx-key
+                    <TextMessage
+                      key={index}
+                      message={Data}
+                      name={From}
+                      time={Timestamp}
+                      me={myId}
+                    />
+                  );
+                }
+              })}
           </ScrollShadow>
 
-          <Input sendMessage={sendMessages} />
+          <Input sendMessage={sendMessages} sendBotCommand={sendBotCommand} />
         </div>
       </div>
     </div>
   );
 
-  function Input({ sendMessage, sendImage }) {
+  function Input({ sendMessage, sendBotCommand }) {
     const [input, setInput] = useState("");
 
     const [file, setFile] = useState(null);
@@ -249,7 +288,12 @@ export default function Page() {
     //   const addMessage = useStore((state) => state.sendMessage);
 
     const send = async () => {
-      console.log("send");
+      if (input.startsWith("@")) {
+        const bot = input.split("@")[1].split(" ")[0];
+        const msg = input.split("@")[1].split(" ")[1];
+        await sendBotCommand(bot, msg);
+      }
+
       await sendMessage(input);
       setInput("");
     };
@@ -271,17 +315,6 @@ export default function Page() {
       });
     }, []);
 
-    function getBase64(file) {
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        console.log(reader.result);
-      };
-      reader.onerror = function (error) {
-        console.log("Error: ", error);
-      };
-    }
-
     const uploadImage = async () => {
       const data = new FormData();
       const fileT = document.querySelector("input[type=file]").files[0];
@@ -294,9 +327,9 @@ export default function Page() {
 
       const res = await response.json();
 
-      console.log(res.id);
+      //console.log(res.id);
 
-      const msg = `image-id:${res.id}`;
+      const msg = `image-id:${res.id} text-content: ${input} `;
 
       await sendMessage(msg);
     };
@@ -334,7 +367,6 @@ export default function Page() {
         </div>
         <div
           onClick={() => {
-            console.log("testes");
             send();
           }}
         >

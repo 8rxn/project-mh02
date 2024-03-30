@@ -15,6 +15,7 @@ import { dryrun } from "@permaweb/aoconnect/browser";
 
 export default function BotCard() {
   const process = "Rz6llKMi_m_NPdCtUR1oeI-TXmpCsUbvXsQhjyyEWDc";
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [bots, setBots] = useState([]);
 

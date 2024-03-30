@@ -1,44 +1,28 @@
 {
     "questionAnswers": [
-        {
-            "question": "Who can participate?",
-            "answer": ""
-        },
-        {
-            "question": "How has DeFi evolved by 2024?",
-            "answer": "By 2024, DeFi has evolved to offer more complex financial products, enhanced scalability, improved interoperability between different blockchains, and stronger regulatory compliance mechanisms. It has also seen an increase in institutional adoption."
-        },
-        {
-            "question": "What are the main risks associated with DeFi?",
-            "answer": "The main risks in DeFi include smart contract vulnerabilities, lack of regulation, high volatility, liquidity issues, and risks associated with over-collateralization. Users also face risks from operational errors due to the complexity of DeFi protocols."
-        },
-        {
-            "question": "How does yield farming work in DeFi?",
-            "answer": "Yield farming in DeFi involves lending or staking cryptocurrency to receive rewards, often in the form of additional digital tokens. It's a way to earn returns by participating in various DeFi protocols, but it also involves high risk and complexity."
-        },
-        {
-            "question": "What role do DAOs play in DeFi?",
-            "answer": "Decentralized Autonomous Organizations (DAOs) play a significant role in DeFi by enabling community-driven governance of DeFi protocols. DAOs allow stakeholders to vote on key decisions, ensuring a democratic and decentralized approach to managing these protocols."
-        },
-        {
-            "question": "How is DeFi contributing to financial inclusion?",
-            "answer": "DeFi contributes to financial inclusion by providing access to financial services for unbanked and underbanked populations around the world. Its decentralized nature removes barriers like the need for traditional banking infrastructure or credit history."
-        },
-        {
-            "question": "What are the most popular DeFi applications in 2024?",
-            "answer": "As of 2024, popular DeFi applications include decentralized exchanges (DEXs), lending platforms, stablecoins, yield farming tools, and synthetic assets. These applications have evolved to offer more user-friendly interfaces and enhanced security."
-        },
-        {
-            "question": "What is the impact of regulatory changes on DeFi in 2024?",
-            "answer": "Regulatory changes in 2024 have impacted DeFi by providing clearer guidelines and compliance requirements. This has led to increased institutional participation, but also to challenges for some decentralized projects that strive to maintain decentralization while complying with regulations."
-        },
-        {
-            "question": "How does DeFi integrate with traditional finance?",
-            "answer": "DeFi integrates with traditional finance through bridges that allow for the transfer of assets between decentralized and centralized systems, partnerships with traditional financial institutions, and the creation of hybrid financial products that combine elements of both worlds."
-        },
-        {
-            "question": "What are the challenges in scaling DeFi platforms?",
-            "answer": "Scaling DeFi platforms is challenging due to issues such as network congestion, high transaction fees, and the need for enhanced security and interoperability. Solutions like layer 2 scaling, sharding, and cross-chain technologies are being developed to address these challenges."
-        }
+      {
+        "question": "Who can participate?",
+        "answer": "Individuals over 18 years interested in building the Ethereum ecosystem and web3 apps."
+      },
+      {
+        "question": "When and where is the hackathon?",
+        "answer": "In Mumbai from March 29th to 31st, 2024."
+      },
+      {
+        "question": "Can we apply as a team?",
+        "answer": "Yes, either as an individual or a team of up to 4."
+      },
+      {
+        "question": "How much does it cost?",
+        "answer": "Free for hackers, including meals, snacks, and resting area for all 3 days."
+      },
+      {
+        "question": "What should I bring once accepted?",
+        "answer": "Essentials for travel and hacking, like ID, water bottle, laptop, chargers, power bank, and clothes."
+      },
+      {
+        "question": "Is there travel reimbursement for hackers?",
+        "answer": "No, travel and other expenses outside the hackathon are not covered."
+      }
     ]
-}
+  }

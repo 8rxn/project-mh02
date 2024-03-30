@@ -16,17 +16,20 @@ app.post("/bot-message", async (req, res) => {
   if (botHandle === "@weather-bot") {
     const question = message;
     const reply = await getWeather(question);
-    res.json({ text: reply, from: "@weather-bot" });
+    // res.json({ text: reply, from: "@weather-bot" });
+    res.send(`text-content: ${reply} bot-name: @weather-bot`);
   } else if (botHandle === "@crypto-bot") {
     const question = message;
     const returnObject = await getPrices(question);
     const reply = returnObject.replyText;
     const image = returnObject.image;
-    res.json({ text: reply, from: "@crypto-bot", image: image });
+    // res.json({ text: reply, from: "@crypto-bot", image: image });
+    res.send(`image-id: ${image} text-content: ${reply} bot-name: @crypto-bot`);
   } else if (botHandle === "@knowledge-bot") {
     const question = message;
     const response = await getKnowledge(botHandle, question);
-    res.json({ text: response, from: "@knowledge-bot" });
+    // res.json({ text: response, from: "@knowledge-bot" });
+    res.send(`text-content: ${response} bot-name: @knowledge-bot`);
   }
   
   else {

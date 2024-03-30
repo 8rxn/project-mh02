@@ -124,24 +124,24 @@ export default function Page({ params }) {
     return Promise.resolve(rz?.Messages[0]?.Tags);
   }
 
-  async function fetchNewMessages() {
-    console.log("fetchNewMessages called");
+  // async function fetchNewMessages() {
+  //   console.log("fetchNewMessages called");
 
-    const currCount = await getInboxCount();
-    console.log("currCount", currCount);
-    if (currCount > lastCount) {
-      const rz = await getPrevMessages();
-      setLastCount(currCount);
+  //   const currCount = await getInboxCount();
+  //   console.log("currCount", currCount);
+  //   if (currCount > lastCount) {
+  //     const rz = await getPrevMessages();
+  //     setLastCount(currCount);
 
-      console.log(lastCount, currCount);
+  //     console.log(lastCount, currCount);
 
-      const msgs = JSON.parse(
-        rz.filter((t) => t.name == "Messages")[0].value
-      ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
+  //     const msgs = JSON.parse(
+  //       rz.filter((t) => t.name == "Messages")[0].value
+  //     ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
 
-      setMessages(msgs);
-    }
-  }
+  //     setMessages(msgs);
+  //   }
+  // }
 
   async function init() {
     const rz = await getPrevMessages();
@@ -237,13 +237,13 @@ export default function Page({ params }) {
     init();
   }, [myId]);
 
-  useEffect(() => {
-    const fetchInterval = setInterval(() => {
-      fetchNewMessages();
-    }, 4000);
+  // useEffect(() => {
+  //   const fetchInterval = setInterval(() => {
+  //     fetchNewMessages();
+  //   }, 4000);
 
-    return () => clearInterval(fetchInterval);
-  }, []);
+  //   return () => clearInterval(fetchInterval);
+  // }, []);
 
   return (
     <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
@@ -360,7 +360,6 @@ export default function Page({ params }) {
 
   function Input({ sendMessage, sendBotCommand }) {
     const [input, setInput] = useState("");
-
     const [file, setFile] = useState(null);
 
     //   const messages = useStore((state) => state.messages);

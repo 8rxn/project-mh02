@@ -13,9 +13,7 @@ import { useEffect, useState } from "react";
 
 import { dryrun } from "@permaweb/aoconnect/browser";
 
-export default function BotCard() {
-  const process = "Rz6llKMi_m_NPdCtUR1oeI-TXmpCsUbvXsQhjyyEWDc";
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+export default function BotCard({process ="Rz6llKMi_m_NPdCtUR1oeI-TXmpCsUbvXsQhjyyEWDc" }) {
 
   const [bots, setBots] = useState([]);
 

@@ -9,23 +9,26 @@ import { ScrollShadow, Tooltip, image } from "@nextui-org/react";
 import { IoSend } from "react-icons/io5";
 
 import Chat from "../../../components/messages/Chat";
+import BotCard from "@/components/bots/BotCard";
 import {
   message,
   createDataItemSigner,
   dryrun,
 } from "@permaweb/aoconnect/browser";
 
-
-
 export default function Page({ params }) {
   const chats = [];
-  let process;
+  let process = params.roomid;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [messages, setMessages] = useState([]);
   const [myId, setMyId] = useState("");
+  const [tokens, setTokens] = useState(null);
+  const [registered, setRegistered] = useState(false);
+  const [lastCount, setLastCount] = useState(0);
 
   const sendMessages = async (msg) => {
+    console.log("sendMessages called");
     const rz = await message({
       process,
       signer: createDataItemSigner(window.arweaveWallet),
@@ -87,6 +90,10 @@ export default function Page({ params }) {
       ],
     });
 
+    if (rz) {
+      registerationCheck();
+    }
+
     //console.log(rz);
   };
 
@@ -117,56 +124,126 @@ export default function Page({ params }) {
     return Promise.resolve(rz?.Messages[0]?.Tags);
   }
 
-  // async function fetchNewMessages() {
-  //   console.log("fetchNewMessages called");
+  async function fetchNewMessages() {
+    console.log("fetchNewMessages called");
 
-  //   const currCount = await getInboxCount();
-  //   console.log("currCount", currCount);
-  //   if (currCount > messages.length) {
-  //     const rz = await getPrevMessages();
-
-  //     // console.log(rz.filter((t) => t.name == "Messages")[0].value);
-
-  //     const msgs = JSON.parse(
-  //       rz.filter((t) => t.name == "Messages")[0].value
-  //     ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
-
-  //     setMessages(msgs);
-  //   }
-  // }
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    async function init() {
+    const currCount = await getInboxCount();
+    console.log("currCount", currCount);
+    if (currCount > lastCount) {
       const rz = await getPrevMessages();
+      setLastCount(currCount);
 
-      // console.log(rz.filter((t) => t.name == "Messages")[0].value);
+      console.log(lastCount, currCount);
 
       const msgs = JSON.parse(
         rz.filter((t) => t.name == "Messages")[0].value
       ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
 
       setMessages(msgs);
-
-      const pr = await window.arweaveWallet.getActiveAddress();
-      if (pr) {
-        setMyId(pr);
-      } else {
-        setMyId(async () => await window.arweaveWallet.getActiveAddress());
-      }
     }
-    process = params.roomid;
+  }
+
+  async function init() {
+    const rz = await getPrevMessages();
+
+    // console.log(rz.filter((t) => t.name == "Messages")[0].value);
+
+    const msgs = JSON.parse(
+      rz.filter((t) => t.name == "Messages")[0].value
+    ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
+    console.log(msgs);
+    setLastCount(msgs.length);
+    setMessages(msgs);
+
+    const pr = await window.arweaveWallet.getActiveAddress();
+    if (pr) {
+      setMyId(pr);
+    } else {
+      setMyId(async () => await window.arweaveWallet.getActiveAddress());
+    }
+  }
+
+  const TokenCount = async () => {
+    const rz = await dryrun({
+      process,
+      tags: [
+        {
+          name: "Action",
+          value: "Balance",
+        },
+        {
+          name: "Target",
+          value: (await window.arweaveWallet.getActiveAddress()).toString(),
+        },
+      ],
+    });
+
+    setTokens(
+      rz?.Messages[0]?.Tags.filter((t) => t.name == "Balance")[0].value
+    );
+    return Promise.resolve(
+      rz?.Messages[0]?.Tags.filter((t) => t.name == "Balance")[0].value
+    );
+  };
+
+  const GetTokens = async () => {
+    const rz = await message({
+      process,
+      signer: createDataItemSigner(window.arweaveWallet),
+      tags: [
+        {
+          name: "Action",
+          value: "#TokenRequest",
+        },
+      ],
+    });
+
+    if (rz) {
+      console.log(rz);
+      TokenCount();
+    }
+    return Promise.resolve(rz);
+  };
+
+  const registerationCheck = async () => {
+    const rz = await dryrun({
+      process,
+      tags: [
+        {
+          name: "Action",
+          value: "Registered",
+        },
+        {
+          name: "Target",
+          value: (await window.arweaveWallet.getActiveAddress()).toString(),
+        },
+      ],
+    });
+
+    console.log("registerationCheck", rz);
+
+    if (
+      rz?.Messages[0].Tags.filter((t) => t.name == "Success")[0].value == true
+    ) {
+      setRegistered(true);
+    }
+  };
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    process = `${params.roomid}`;
+    TokenCount();
+    registerationCheck();
     init();
   }, [myId]);
 
-  // useEffect(() => {
-  //   const fetchInterval = setInterval(() => {
+  useEffect(() => {
+    const fetchInterval = setInterval(() => {
+      fetchNewMessages();
+    }, 4000);
 
-  //     // fetchNewMessages();
-  //   }, 4000);
-
-  //   return () => clearInterval(fetchInterval);
-  // }, []);
+    return () => clearInterval(fetchInterval);
+  }, []);
 
   return (
     <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
@@ -175,80 +252,107 @@ export default function Page({ params }) {
           <p className="text-white p-4 text-lg font-bold border-b-1 border-b-gray-700">
             All Chats
           </p>
-          <button
-            onClick={() => {
-              register();
-            }}
-          >
-            Register if havent
-          </button>
           <ScrollShadow hideScrollBar className="max-h-[300px] overflow-scroll">
             {chats.map(({ chatroom, chatId }, index) => (
               <Chat key={index} chatroom={chatroom} chatId={chatId} />
             ))}
           </ScrollShadow>
         </div>
-        <div className="flex justify-center items-center border-[1px] border-gray-700 rounded-xl min-h-[300px] max-h-[350px] mt-2">
-          <p className="text-white">Explore Chat Bots</p>
+        <div className="flex justify-start flex-col items-center border-[1px] border-gray-700 rounded-xl min-h-[300px] max-h-[350px] mt-2">
+          <BotCard process={process} />
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
         </div>
       </div>
       <div className="w-full bg-black mx-auto mt-2 max-h-[400px]">
         <ChatNav Name={"Room 1"} RoomId={params.roomid} />
 
-        <div className="mx-auto w-auto overflow-auto relative bg-[#080808]">
-          <ScrollShadow
-            hideScrollBar
-            size={100}
-            offset={30}
-            className="flex flex-col gap-2 p-2 max-h-[74dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:min-h-[60vh] 2xl:max-h-[500px] overflow-scroll "
-          >
-            {messages.length > 0 &&
-              messages?.map(({ Data, From, Timestamp }, index) => {
-                const textContent = Data.includes("text-content:")
-                  ? Data.split("text-content:")[1].includes("bot-name:")
-                    ? Data.split("text-content:")[1].split("bot-name:")[0]
-                    : Data.split("text-content:")[1]
-                  : Data;
+        {registered && (
+          <div className="mx-auto w-auto overflow-auto relative bg-[#080808]">
+            <ScrollShadow
+              hideScrollBar
+              size={100}
+              offset={30}
+              className="flex flex-col gap-2 p-2 max-h-[74dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:min-h-[60vh] 2xl:max-h-[500px] overflow-scroll "
+            >
+              {messages.length > 0 &&
+                messages?.map(({ Data, From, Timestamp }, index) => {
+                  const textContent = Data.includes("text-content:")
+                    ? Data.split("text-content:")[1].includes("bot-name:")
+                      ? Data.split("text-content:")[1].split("bot-name:")[0]
+                      : Data.split("text-content:")[1]
+                    : Data;
 
-                const botName = Data.split("bot-name:")[1];
+                  const botName = Data.split("bot-name:")[1];
 
-                const imageId = Data.split("image-id:")[1]
-                  ?.split("text-content:")[0]
-                  .trim();
+                  const imageId = Data.split("image-id:")[1]
+                    ?.split("text-content:")[0]
+                    .trim();
 
-                if (imageId !== undefined) {
-                  return (
-                    // eslint-disable-next-line react/jsx-key
-                    <>
-                      <ImgMessage
+                  if (imageId !== undefined) {
+                    return (
+                      // eslint-disable-next-line react/jsx-key
+                      <>
+                        <ImgMessage
+                          name={botName !== undefined ? botName : From}
+                          time={Timestamp}
+                          text={textContent}
+                          src={"https://api.liteseed.xyz/data/" + imageId}
+                        />
+                      </>
+                    );
+                  } else {
+                    return (
+                      // eslint-disable-next-line react/jsx-key
+                      <TextMessage
+                        key={index}
+                        message={textContent}
                         name={botName !== undefined ? botName : From}
                         time={Timestamp}
-                        text={textContent}
-                        src={"https://api.liteseed.xyz/data/" + imageId}
+                        me={myId}
                       />
-                    </>
-                  );
-                } else {
-                  return (
-                    // eslint-disable-next-line react/jsx-key
-                    <TextMessage
-                      key={index}
-                      message={Data}
-                      name={botName !== undefined ? botName : From}
-                      time={Timestamp}
-                      me={myId}
-                    />
-                  );
-                }
-              })}
-          </ScrollShadow>
+                    );
+                  }
+                })}
+            </ScrollShadow>
 
-          <Input
-            sendMessage={sendMessages}
-            sendBotCommand={sendBotCommand}
-            key={"input-field"}
-          />
-        </div>
+            <Input
+              sendMessage={sendMessages}
+              sendBotCommand={sendBotCommand}
+              key={"input-field"}
+            />
+          </div>
+        )}
+        {!registered && (
+          <div className="mx-auto w-auto overflow-auto relative min-h-[80vh] bg-[#080808] grid place-items-center">
+            <div className="text-white">
+              <p className="text-2xl font-bold">Register to Chat</p>
+
+              <div className="mt-2">
+                Your Tokens : {tokens ? tokens : "Loading..."}
+              </div>
+              <div className="flex items-center gap-4 justify-center ">
+                <button
+                  disabled={tokens == null}
+                  onClick={() => {
+                    GetTokens();
+                  }}
+                >
+                  Get More Tokens
+                </button>
+                <button
+                  disabled={tokens == null}
+                  onClick={() => {
+                    register();
+                  }}
+                >
+                  Register for Chat
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

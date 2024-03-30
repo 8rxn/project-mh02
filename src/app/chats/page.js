@@ -36,11 +36,11 @@ export default Page;
 
 const allChats = [
   {
-    title: "Chat Room 1",
+    title: "Default Chat",
     roomid: "mK6hl6stBOfK1m66TpmYQ_3RG_FrRXWsJSdGTV6__i8",
   },
   {
-    title: "Chat Room 2",
+    title: "Another Default Chat",
     roomid: "mK6hl6stBOfK1m66TpmYQ_3RG_FrRXWsJSdGTV6__i8",
   },
 ];

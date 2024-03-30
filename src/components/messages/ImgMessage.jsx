@@ -1,6 +1,6 @@
 import React from "react";
 
-function ImgMessage() {
+function ImgMessage({ src }) {
   return (
     <div className="flex items-start gap-2.5">
       <div className="flex flex-col gap-1">
@@ -45,7 +45,7 @@ function ImgMessage() {
                 <div className="tooltip-arrow" data-popper-arrow></div>
               </div>
             </div>
-            <img src="https://picsum.photos/200"  alt="samle" className="rounded-lg"/>
+            <img src={src} alt="samle" className="rounded-lg" />
           </div>
         </div>
       </div>

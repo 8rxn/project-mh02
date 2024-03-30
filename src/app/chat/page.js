@@ -1,37 +1,29 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { GrAttachment } from "react-icons/gr";
+
 import TextMessage from "../../components/messages/TextMessage";
 import ImgMessage from "../../components/messages/ImgMessage";
 import ChatNav from "../../components/navbar/ChatNav";
 import { ScrollShadow, Tooltip } from "@nextui-org/react";
 import { IoSend } from "react-icons/io5";
-import Chat from "../../components/messages/Chat";
 
-import { FileUploader } from "react-drag-drop-files";
+import Chat from "../../components/messages/Chat";
 import {
   message,
   createDataItemSigner,
   dryrun,
 } from "@permaweb/aoconnect/browser";
+import next from "next";
 
 export default function page() {
-  const messagesinit = [
-    { message: "Hey!", name: "Assistant", time: "11:56" },
-    { message: "Hello", name: "Anmol", time: "11:56" },
-    { message: "My issue is resolved", name: "Anmol", time: "11:56" },
-    {
-      message: "That's awesome. We are glad that your issue is resolved.",
-      name: "Assistant",
-      time: "11:56",
-    },
-  ];
-
   const chats = [];
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [messages, setMessages] = useState([...messagesinit]);
+  const process = "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg";
+
+  const [nextIndex, setNextIndex] = useState(-1);
+
+  const [messages, setMessages] = useState([]);
 
   const sendMessages = async (msg) => {
     const rz = await message({
@@ -46,11 +38,19 @@ export default function page() {
       ],
     });
     console.log(rz);
+
+    setMessages([
+      ...messages,
+      {
+        message: msg,
+        name: (await window.arweaveWallet.getActiveAddress()).split(" ")[1],
+      },
+    ]);
   };
 
   const register = async (msg) => {
     const rz = await message({
-      process: "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg",
+      process,
       signer: createDataItemSigner(window.arweaveWallet),
       data: msg,
       tags: [
@@ -66,7 +66,7 @@ export default function page() {
 
   const botCommand = async (bot) => {
     const rz = await message({
-      process: "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg",
+      process,
       signer: createDataItemSigner(window.arweaveWallet),
       tags: [
         {
@@ -83,21 +83,6 @@ export default function page() {
     console.log(rz);
   };
 
-  // const requestTokens = async () => {
-  //   const rz = await message({
-  //     process: "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg",
-  //     signer: createDataItemSigner(window.arweaveWallet),
-  //     tags: [
-  //       {
-  //         name: "Action",
-  //         value: "TokenRequest",
-  //       },
-  //     ],
-  //   });
-
-  //   console.log(rz);
-  // };
-
   const uploadImage = async (file) => {
     await fetch("https://api.liteseed.xyz/data", {
       method: "POST",
@@ -110,6 +95,76 @@ export default function page() {
       }),
     });
   };
+
+  const getInboxCount = async () => {
+    const rz = await dryrun({
+      process,
+      tags: [{ name: "Action", value: "#Inbox" }],
+    });
+
+    console.log(rz);
+    return Promise.resolve(
+      rz?.Messages[0]?.Tags?.find((t) => t.name == "InboxCount").value
+    );
+  };
+
+  async function getMessages() {
+    const rz = await dryrun({
+      process,
+      tags: [
+        {
+          name: "Target",
+          value: process,
+        },
+        { name: "Action", value: "CheckInbox" },
+        { name: "Index", value: nextIndex.toString() },
+      ],
+    });
+    console.log(rz);
+
+    return Promise.resolve(rz?.Messages[0]?.Tags);
+  }
+
+  // async function checkRegisteration() {
+  //   const addrs = (await window.arweaveWallet.getActiveAddress()).split(" ")[1];
+
+  //   console.log(addrs);
+
+  //   if (!addrs) {
+  //     return Promise.resolve(false);
+  //   }
+
+  //   const rz = await dryrun({
+  //     process,
+  //     tags: [
+  //       {
+  //         name: "Action",
+  //         value: "Registeration",
+  //       },
+  //       {
+  //         name: "From",
+  //         value: addrs,
+  //       },
+  //     ],
+  //   });
+
+  //   return Promise.resolve(rz);
+  // }
+
+  useEffect(() => {
+    async function init() {
+      // const registration = await checkRegisteration();
+      // console.log(registration);
+      const rz = await getMessages();
+      // console.log(rz);
+
+      console.log(rz.filter((t) => t.name == "Messages")[0].value);
+      // console.log(r);
+      setMessages(rz.filter((t) => t.name == "Messages")[0].value);
+    }
+
+    init();
+  }, []);
 
   return (
     <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
@@ -130,6 +185,7 @@ export default function page() {
       </div>
       <div className="w-full bg-black mx-auto mt-2 max-h-[400px]">
         <ChatNav />
+        
         <div className="mx-auto w-auto overflow-auto relative bg-[#080808]">
           <ScrollShadow
             hideScrollBar
@@ -137,23 +193,33 @@ export default function page() {
             offset={30}
             className="flex flex-col gap-2 p-2 max-h-[74dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:min-h-[60vh] 2xl:max-h-[500px] overflow-scroll "
           >
-            {messages.map(({ message, name, time }, index) => (
-              <TextMessage
-                key={index}
-                message={message}
-                name={name}
-                time={time}
-              />
-            ))}
-            <ImgMessage />
+            {messages?.map(({ Data, From, time }, index) => {
+              if (Data?.startsWith("image-id:")) {
+                return (
+                  <ImgMessage
+                    src={`https://api.liteseed.xyz/data/${Data.split(":")[1]}`}
+                  />
+                );
+              } else {
+                return (
+                  <TextMessage
+                    key={index}
+                    message={Data}
+                    name={From}
+                    time={time}
+                  />
+                );
+              }
+            })}
           </ScrollShadow>
-          <Input />
+
+          <Input sendMessage={sendMessages} />
         </div>
       </div>
     </div>
   );
 
-  function Input({ sendMessage }) {
+  function Input({ sendMessage, sendImage }) {
     const [input, setInput] = useState("");
 
     const [file, setFile] = useState(null);
@@ -163,7 +229,7 @@ export default function page() {
 
     const send = async () => {
       console.log("send");
-      await sendMessage();
+      await sendMessage(input);
       setInput("");
     };
 
@@ -184,17 +250,34 @@ export default function page() {
       });
     }, []);
 
-    const uploadImage = async (file) => {
-      await fetch("https://api.liteseed.xyz/data", {
+    function getBase64(file) {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        console.log(reader.result);
+      };
+      reader.onerror = function (error) {
+        console.log("Error: ", error);
+      };
+    }
+
+    const uploadImage = async () => {
+      const data = new FormData();
+      const fileT = document.querySelector("input[type=file]").files[0];
+      data.append("file", fileT);
+
+      const response = await fetch("https://api.liteseed.xyz/data", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          file: file,
-          tags: "",
-        }),
+        body: data,
       });
+
+      const res = await response.json();
+
+      console.log(res.id);
+
+      const msg = `image-id:${res.id}`;
+
+      await sendMessage(msg);
     };
 
     return (
@@ -205,13 +288,14 @@ export default function page() {
               <input
                 type="file"
                 onChange={(e) => setFile(e.target.value)}
-                Upload
                 aria-label="Upload"
               />
               {file && (
                 <button
                   className="bg-gray-50 absolute z-10"
-                  onClick={() => uploadImage(file)}
+                  onClick={() => {
+                    uploadImage();
+                  }}
                 >
                   Upload
                 </button>

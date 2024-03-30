@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.10",
+    "@permaweb/aoconnect": "^0.0.51",
     "arweave-wallet-kit": "^1.0.4",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.23",
@@ -18,9 +19,11 @@
     "next-auth": "^4.24.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-drag-drop-files": "^2.3.10",
     "react-icons": "^5.0.1",
     "tailwind-merge": "^2.2.2",
-    "weavedb-sdk": "^0.39.2"
+    "weavedb-sdk": "^0.39.2",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",

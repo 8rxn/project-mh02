@@ -15,7 +15,8 @@ export default function Home() {
           titleComponent={
             <>
               <h1 className="text-2xl md:text-4xl font-RobotoMono text-white">
-                Address Consumer Issues With
+                Discover a new way to chat.
+                Decentralized and Preserved Permaweb
                 <br />
                 <span className="text-4xl md:text-[6rem] mt-1 leading-none text-[#95A4FC] font-bold">
                   WeaveChat
@@ -24,7 +25,7 @@ export default function Home() {
             </>
           }
         />
-        <Features/>
+        <Features />
       </div>
       <Footer />
     </>

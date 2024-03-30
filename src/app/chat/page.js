@@ -7,6 +7,8 @@ import ChatNav from "../../components/navbar/ChatNav";
 import { ScrollShadow, Tooltip } from "@nextui-org/react";
 import { IoSend } from "react-icons/io5";
 import Chat from "../../components/messages/Chat";
+
+import { FileUploader } from "react-drag-drop-files";
 import {
   message,
   createDataItemSigner,
@@ -14,7 +16,7 @@ import {
 } from "@permaweb/aoconnect/browser";
 
 export default function page() {
-  const chats = [
+  const messagesinit = [
     { message: "Hey!", name: "Assistant", time: "11:56" },
     { message: "Hello", name: "Anmol", time: "11:56" },
     { message: "My issue is resolved", name: "Anmol", time: "11:56" },
@@ -25,7 +27,9 @@ export default function page() {
     },
   ];
 
-  const [messages, setMessages] = useState([...chats]);
+  const chats = [];
+
+  const [messages, setMessages] = useState([...messagesinit]);
 
   const sendMessages = async (msg) => {
     const rz = await message({
@@ -51,6 +55,26 @@ export default function page() {
         {
           name: "Action",
           value: "Register",
+        },
+      ],
+    });
+
+    console.log(rz);
+  };
+
+
+  const botCommand = async (bot) => {
+    const rz = await message({
+      process: "gmMOBLRM6Yk4nnhT033BlzAvzh2nWUikM2pr-2eFwFg",
+      signer: createDataItemSigner(window.arweaveWallet),
+      tags: [
+        {
+          name: "Action",
+          value: "BotCommand",
+        },
+        {
+          name: "Bot",
+          value: bot,
         },
       ],
     });
@@ -131,6 +155,8 @@ export default function page() {
   function Input({ sendMessage }) {
     const [input, setInput] = useState("");
 
+    const [file, setFile] = useState(null);
+
     //   const messages = useStore((state) => state.messages);
     //   const addMessage = useStore((state) => state.sendMessage);
 
@@ -157,10 +183,35 @@ export default function page() {
       });
     }, []);
 
+    const uploadImage = async (file) => {
+      await fetch("https://api.liteseed.xyz/data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          file: file,
+          tags: "",
+        }),
+      });
+    }
+
     return (
       <div className="flex flex-row items-center h-16 rounded-b-xl p-4 bg-black w-full border-[1px] border-gray-700">
         <div className="flex-grow">
           <div className="relative w-full">
+            <div className="flex">
+              <input
+                type="file"
+                onChange={(e) => setFile(e.target.value)}
+                Upload
+                aria-label="  Upload"
+              />
+              {file && (
+                <button className="bg-gray-50" onClick={() => uploadImage(file)}>Upload</button>
+              )}
+            </div>
+
             <input
               type="text"
               className="flex w-full focus:outline-none pl-4 h-10 bg-black border-b-1 border-b-gray-400 text-white"

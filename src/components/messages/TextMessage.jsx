@@ -9,7 +9,7 @@ const isMe = name === me;
       }`}
     >
       <div
-        className={`flex flex-col max-w-[320px] leading-1.5 px-4 py-2 border-gray-200 rounded-b-xl ${
+        className={`flex flex-col max-w-[60vw] leading-1.5 px-4 py-2 border-gray-200 rounded-b-xl ${
           isMe ? "rounded-l-xl bg-[#95A4FC]" : "rounded-r-xl bg-[#E5ECF6]"
         }`}
       >
@@ -30,7 +30,7 @@ const isMe = name === me;
           </span>
         </div>
         <p
-          className={`text-[14px] font-normal py-1 font-Gabarito ${
+          className={`flex overflow-x-scroll text-[14px] font-normal py-1 font-RobotoMono ${
             isMe ? "text-white" : "text-gray-900"
           }`}
         >

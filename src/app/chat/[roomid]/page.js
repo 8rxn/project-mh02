@@ -152,8 +152,9 @@ export default function Page({ params }) {
       rz.filter((t) => t.name == "Messages")[0].value
     ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
     console.log(msgs);
-    setLastCount(msgs.length);
     setMessages(msgs);
+
+    scrollBottom();
 
     const pr = await window.arweaveWallet.getActiveAddress();
     if (pr) {
@@ -245,10 +246,17 @@ export default function Page({ params }) {
   //   return () => clearInterval(fetchInterval);
   // }, []);
 
+  const scrollBottom = () => {
+    const chatContainer = document.getElementById("chatcontainer");
+    if (chatContainer) {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+  };
+
   return (
-    <div className="relative flex flex-col-reverse lg:flex-row gap-2 bg-black min-h-screen">
-      <div className="relative flex flex-col w-full mt-[200px] lg:mt-0 lg:w-[300px] bg-black mx-auto max-h-[720px]">
-        <div className="text-white border-[1px] border-gray-700 rounded-xl min-h-[300px] max-h-[350px]">
+    <div className="relative flex flex-col-reverse lg:flex-row gap-2 items-start bg-black min-h-screen">
+      <div className="relative flex flex-col w-full lg:w-[300px] bg-black mx-auto max-h-[720px] lg:h-full">
+        <div className="text-white border-[1px] border-gray-700 rounded-xl min-h-[300px] lg:h-1/2 max-h-[350px]">
           <p className="text-white p-4 text-lg font-bold border-b-1 border-b-gray-700">
             All Chats
           </p>
@@ -258,23 +266,24 @@ export default function Page({ params }) {
             ))}
           </ScrollShadow>
         </div>
-        <div className="flex justify-start flex-col items-center border-[1px] border-gray-700 rounded-xl min-h-[300px] max-h-[350px] mt-2">
+        <div className="flex justify-start flex-col items-center border-[1px] border-gray-700 rounded-xl min-h-[300px] max-h-[350px] mt-2 overflow-hidden">
           <BotCard process={process} />
           <span>.</span>
           <span>.</span>
           <span>.</span>
         </div>
       </div>
-      <div className="w-full bg-black mx-auto mt-2 max-h-[400px]">
+      <div className="w-full bg-black mx-auto h-full">
         <ChatNav Name={"Room 1"} RoomId={params.roomid} />
 
         {registered && (
-          <div className="mx-auto w-auto overflow-auto relative bg-[#080808]">
+          <div className="mx-auto w-auto overflow-auto overflow-x-hidden relative bg-[#080808] ">
             <ScrollShadow
               hideScrollBar
               size={100}
               offset={30}
-              className="flex flex-col gap-2 p-2 max-h-[74dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:min-h-[60vh] 2xl:max-h-[500px] overflow-scroll "
+              className="flex flex-col gap-2 p-2 max-h-[74dvh] sm:max-h-[76vh] md:min-h-[76vh] xl:max-h-[70vh] 2xl:max-h-[80vh] overflow-x-scroll overflow-y-hidee"
+              id="chatcontainer"
             >
               {messages.length > 0 &&
                 messages?.map(({ Data, From, Timestamp }, index) => {
@@ -409,7 +418,7 @@ export default function Page({ params }) {
     };
 
     return (
-      <div className="flex flex-row items-center h-16 rounded-b-xl p-4 bg-black w-full border-[1px] border-gray-700">
+      <div className="flex flex-row items-center h-16 rounded-b-xl p-4 bg-black w-full border-[1px] border-gray-700 sticky bottom-0">
         <div className="flex-grow">
           <div className="relative flex justify-start items-center">
             <div>

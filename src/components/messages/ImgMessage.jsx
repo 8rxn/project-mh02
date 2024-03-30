@@ -11,7 +11,7 @@ function ImgMessage({ name, src, time, text, me }) {
     >
       <div className="flex flex-col gap-1">
         <div
-          className={`flex flex-col w-full max-w-[326px] leading-1.5 p-4 border-gray-200 rounded-b-xl ${
+          className={`flex flex-col w-full max-w-[50vw] leading-1.5 p-4 border-gray-200 rounded-b-xl ${
             isMe ? "rounded-l-xl bg-[#95A4FC]" : "rounded-r-xl bg-[#E5ECF6]"
           }`}
         >

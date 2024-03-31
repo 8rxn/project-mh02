@@ -32,20 +32,23 @@ export default function ChatsNav({ setChats }) {
     setLoading(true);
 
     let headersList = {
-      "Accept": "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)" 
-     }
-     
-     let reqOptions = {
-       url: "https://project-mh02.onrender.com/chatroom",
-       method: "GET",
-       headers: headersList,
-     }
-     
-     let response = await axios.request(reqOptions);
-     console.log(response.data);
+      Accept: "*/*",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+    };
 
-    const id = response.data.id;
+    let reqOptions = {
+      url: "https://project-mh02.onrender.com/chatroom",
+      method: "GET",
+      headers: headersList,
+    };
+
+    let response = await axios.request(reqOptions);
+    console.log(response.data);
+
+    const { id } = response.data;
+
+    setLoading(false);
+    onclose();
 
     setChats((prev) => [
       ...prev,

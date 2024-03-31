@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import TextMessage from "../../../components/messages/TextMessage";
 import ImgMessage from "../../../components/messages/ImgMessage";
 import ChatNav from "../../../components/navbar/ChatNav";
-import { ScrollShadow, Tooltip, image } from "@nextui-org/react";
+import { ScrollShadow, Tooltip, Button } from "@nextui-org/react";
 import { IoSend } from "react-icons/io5";
 
 import Chat from "../../../components/messages/Chat";
@@ -336,29 +336,31 @@ export default function Page({ params }) {
         )}
         {!registered && (
           <div className="mx-auto w-auto overflow-auto relative min-h-[80vh] bg-[#080808] grid place-items-center">
-            <div className="text-white">
+            <div className="text-white flex flex-col gap-4 justify-center items-center">
               <p className="text-2xl font-bold">Register to Chat</p>
 
-              <div className="mt-2">
+              <div className="mt-0">
                 Your Tokens : {tokens ? tokens : "Loading..."}
               </div>
               <div className="flex items-center gap-4 justify-center ">
-                <button
+                <Button
                   disabled={tokens == null}
                   onClick={() => {
                     GetTokens();
                   }}
+                  className="bg-[#95A4FC]"
                 >
                   Get More Tokens
-                </button>
-                <button
+                </Button>
+                <Button
                   disabled={tokens == null}
                   onClick={() => {
                     register();
                   }}
+                  className="bg-[#95A4FC]"
                 >
                   Register for Chat
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -426,10 +428,11 @@ export default function Page({ params }) {
                 type="file"
                 onChange={(e) => setFile(e.target.value)}
                 aria-label="Upload"
+                className="text-white"
               />
               {file && (
                 <button
-                  className="bg-gray-50 absolute z-10"
+                  className="bg-gray-50 absolute z-10 text-white"
                   onClick={() => {
                     uploadImage();
                   }}

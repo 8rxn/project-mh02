@@ -164,14 +164,14 @@ export default function Page({ params }) {
     //console.log(msgs);
     setMessages(msgs);
 
-    scrollBottom();
-
     const pr = await window.arweaveWallet.getActiveAddress();
     if (pr) {
       setMyId(pr);
     } else {
       setMyId(async () => await window.arweaveWallet.getActiveAddress());
     }
+
+    scrollBottom();
   }
 
   const TokenCount = async () => {

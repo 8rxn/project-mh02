@@ -23,6 +23,7 @@ async function runAOSCommands(process) {
       const dataStr = data.toString();
       outputBuffer += dataStr;
 
+      console.log("out: ", outputBuffer)
       if (!aoId && outputBuffer.includes("aos process: ")) {
         const match = outputBuffer.match(/aos process:\s*(\S+)/);
         if (match && match[1]) {
@@ -88,7 +89,7 @@ app.post("/bot-message", async (req, res) => {
 });
 
 app.get("/chatroom", async (req, res) => {
-  const id = await runAOSCommands(new Date().getTime().toString());
+  const id = await runAOSCommands("custom-chat");
   res.json({ id });
 });
 

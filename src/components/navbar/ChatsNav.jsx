@@ -13,7 +13,6 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { IoMdAddCircle } from "react-icons/io";
-import { FaCircleInfo } from "react-icons/fa6";
 
 export default function ChatsNav() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);

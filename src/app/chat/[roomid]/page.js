@@ -249,14 +249,6 @@ export default function Page({ params }) {
     init();
   }, [myId]);
 
-  // useEffect(() => {
-  //   const fetchInterval = setInterval(() => {
-  //     fetchNewMessages();
-  //   }, 4000);
-
-  //   return () => clearInterval(fetchInterval);
-  // }, []);
-
   const scrollBottom = () => {
     const chatContainer = document.getElementById("chatcontainer");
     if (chatContainer) {

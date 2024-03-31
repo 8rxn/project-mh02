@@ -13,7 +13,7 @@ function Page() {
     <GridSmallBackground>
       <div className="min-h-screen flex flex-col lg:flex-row mx-auto w-[95vw] sm:w-[80vw] py-4 gap-3">
         <div className="relative flex flex-col w-full">
-          <ChatsNav />
+          <ChatsNav setChats={setChats} />
           <ScrollShadow hideScrollBar className="md:max-h-[80vh] w-full">
             <CardHover items={chats} />
           </ScrollShadow>

@@ -4,8 +4,10 @@ import getWeather from "./weather-api.mjs";
 import getPrices from "./coin-api.mjs";
 import { spawn } from "child_process";
 import getKnowledge from "./knowledge-api.mjs";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 
 async function runAOSCommands(process) {
@@ -23,7 +25,7 @@ async function runAOSCommands(process) {
       const dataStr = data.toString();
       outputBuffer += dataStr;
 
-      console.log("out: ", outputBuffer)
+      console.log("out: ", outputBuffer);
       if (!aoId && outputBuffer.includes("aos process: ")) {
         const match = outputBuffer.match(/aos process:\s*(\S+)/);
         if (match && match[1]) {
@@ -98,7 +100,7 @@ app.get("/status", (req, res) => {
   res.json({ status: "up" });
 });
 
-const PORT = process.env.PORT || 3002
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

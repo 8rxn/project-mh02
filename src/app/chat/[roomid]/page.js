@@ -36,7 +36,6 @@ export default function Page({ params }) {
   const [myId, setMyId] = useState("");
   const [tokens, setTokens] = useState(null);
   const [registered, setRegistered] = useState(false);
-  const [lastCount, setLastCount] = useState(0);
 
   const sendMessages = async (msg) => {
     //console.log("sendMessages called");
@@ -223,13 +222,14 @@ export default function Page({ params }) {
     const currCount = msg.length;
 
     if (inboxCount > currCount) {
-      //console.log("fetching new messages")
+      console.log("cur", currCount, "inbox", inboxCount);
       const rz = await getPrevMessages();
       const msgs = JSON.parse(
         rz.filter((t) => t.name == "Messages")[0].value
       ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
 
       setMessages(msgs);
+      scrollBottom();
     }
   };
 
@@ -268,7 +268,7 @@ export default function Page({ params }) {
   useEffect(() => {
     const interval = setInterval(() => {
       getMessages(messages);
-    }, 5000);
+    }, 9000);
 
     return () => {
       clearInterval(interval);

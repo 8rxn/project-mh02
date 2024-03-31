@@ -39,7 +39,7 @@ export default function Page({ params }) {
   const [lastCount, setLastCount] = useState(0);
 
   const sendMessages = async (msg) => {
-    console.log("sendMessages called");
+    //console.log("sendMessages called");
     const rz = await message({
       process,
       signer: createDataItemSigner(window.arweaveWallet),
@@ -65,7 +65,7 @@ export default function Page({ params }) {
   };
 
   const sendBotCommand = async (msg, bot) => {
-    console.log(bot, msg);
+    //console.log(bot, msg);
     const rz = await message({
       process,
       signer: createDataItemSigner(window.arweaveWallet),
@@ -105,7 +105,7 @@ export default function Page({ params }) {
       registerationCheck();
     }
 
-    //console.log(rz);
+    ////console.log(rz);
   };
 
   const getInboxCount = async () => {
@@ -113,14 +113,14 @@ export default function Page({ params }) {
       process,
       tags: [{ name: "Action", value: "#Inbox" }],
     });
-    console.log("rz", rz);
+    //console.log("rz", rz);
     return Promise.resolve(
       rz?.Messages[0]?.Tags?.find((t) => t.name == "InboxCount").value
     );
   };
 
   async function getPrevMessages() {
-    console.log("called getPrevMessages");
+    //console.log("called getPrevMessages");
     const rz = await dryrun({
       process,
       tags: [
@@ -136,15 +136,15 @@ export default function Page({ params }) {
   }
 
   // async function fetchNewMessages() {
-  //   console.log("fetchNewMessages called");
+  //   //console.log("fetchNewMessages called");
 
   //   const currCount = await getInboxCount();
-  //   console.log("currCount", currCount);
+  //   //console.log("currCount", currCount);
   //   if (currCount > lastCount) {
   //     const rz = await getPrevMessages();
   //     setLastCount(currCount);
 
-  //     console.log(lastCount, currCount);
+  //     //console.log(lastCount, currCount);
 
   //     const msgs = JSON.parse(
   //       rz.filter((t) => t.name == "Messages")[0].value
@@ -157,12 +157,12 @@ export default function Page({ params }) {
   async function init() {
     const rz = await getPrevMessages();
 
-    // console.log(rz.filter((t) => t.name == "Messages")[0].value);
+    // //console.log(rz.filter((t) => t.name == "Messages")[0].value);
 
     const msgs = JSON.parse(
       rz.filter((t) => t.name == "Messages")[0].value
     ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
-    console.log(msgs);
+    //console.log(msgs);
     setMessages(msgs);
 
     scrollBottom();
@@ -211,10 +211,26 @@ export default function Page({ params }) {
     });
 
     if (rz) {
-      console.log(rz);
+      //console.log(rz);
       TokenCount();
     }
     return Promise.resolve(rz);
+  };
+
+  const getMessages = async (msg) => {
+    const inboxCount = await getInboxCount();
+
+    const currCount = msg.length;
+
+    if (inboxCount > currCount) {
+      //console.log("fetching new messages")
+      const rz = await getPrevMessages();
+      const msgs = JSON.parse(
+        rz.filter((t) => t.name == "Messages")[0].value
+      ).map((m) => ({ From: m.From, Data: m.Data, Time: m.Timestamp }));
+
+      setMessages(msgs);
+    }
   };
 
   const registerationCheck = async () => {
@@ -232,7 +248,7 @@ export default function Page({ params }) {
       ],
     });
 
-    console.log("registerationCheck", rz);
+    //console.log("registerationCheck", rz);
 
     if (
       rz?.Messages[0].Tags.filter((t) => t.name == "Success")[0].value == true
@@ -248,6 +264,16 @@ export default function Page({ params }) {
     registerationCheck();
     init();
   }, [myId]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getMessages(messages);
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const scrollBottom = () => {
     const chatContainer = document.getElementById("chatcontainer");
@@ -265,7 +291,12 @@ export default function Page({ params }) {
           </p>
           <ScrollShadow hideScrollBar className="max-h-[300px] overflow-scroll">
             {allChats.map((chat, index) => (
-              <Chat key={index} chatroom={chat.title} chatId={chat.roomid} currentId={process}/>
+              <Chat
+                key={index}
+                chatroom={chat.title}
+                chatId={chat.roomid}
+                currentId={process}
+              />
             ))}
           </ScrollShadow>
         </div>
@@ -375,11 +406,12 @@ export default function Page({ params }) {
   function Input({ sendMessage, sendBotCommand }) {
     const [input, setInput] = useState("");
     const [file, setFile] = useState(null);
-
+    const [disabled, setDisabled] = useState(false);
     //   const messages = useStore((state) => state.messages);
     //   const addMessage = useStore((state) => state.sendMessage);
 
     const send = async () => {
+      setDisabled(true);
       if (input.startsWith("@")) {
         const bot = input.split("@")[1].split(" ")[0];
         const msg = input.split("@")[1].split(bot)[1];
@@ -388,21 +420,8 @@ export default function Page({ params }) {
 
       await sendMessage(input);
       setInput("");
+      setDisabled(false);
     };
-
-    // useEffect(() => {
-    //   const input = document.querySelector("input");
-    //   input.addEventListener("keydown", (e) => {
-    //     if (e.key === "Enter" && !!input) {
-    //       send();
-    //     }
-
-    //     return () => {
-    //       input.removeEventListener("keydown");
-    //     };
-    //   });
-    // }, []);
-
     const uploadImage = async () => {
       const data = new FormData();
       const fileT = document.querySelector("input[type=file]").files[0];
@@ -415,9 +434,12 @@ export default function Page({ params }) {
 
       const res = await response.json();
 
-      //console.log(res.id);
+      if (!res.id) {
+        return;
+      }
+      ////console.log(res.id);
 
-      const msg = `image-id:${res.id} text-content: ${input} `;
+      const msg = `image-id:${res.id}`;
 
       await sendMessage(msg);
     };
@@ -447,6 +469,7 @@ export default function Page({ params }) {
 
             <input
               type="text"
+              disabled={disabled}
               className="flex w-full focus:outline-none pl-4 h-10 bg-black border-b-1 border-b-gray-400 text-white"
               onChange={(e) => {
                 setInput(e.target.value);
@@ -463,6 +486,7 @@ export default function Page({ params }) {
           onClick={() => {
             send();
           }}
+          disabled={disabled}
         >
           <Tooltip content="Send Message">
             <button className="flex items-center justify-center text-white hover:text-[#95A4FC] py-3 pl-3 flex-shrink-0 rounded-full text-2xl">

@@ -13,8 +13,9 @@ import { useEffect, useState } from "react";
 
 import { dryrun } from "@permaweb/aoconnect/browser";
 
-export default function BotCard({process ="Rz6llKMi_m_NPdCtUR1oeI-TXmpCsUbvXsQhjyyEWDc" }) {
-
+export default function BotCard({
+  process = "Rz6llKMi_m_NPdCtUR1oeI-TXmpCsUbvXsQhjyyEWDc",
+}) {
   const [bots, setBots] = useState([]);
 
   useEffect(() => {
@@ -32,11 +33,19 @@ export default function BotCard({process ="Rz6llKMi_m_NPdCtUR1oeI-TXmpCsUbvXsQhj
 
       const jsonString = rz.Messages[0].Tags.filter((t) => t.name == "Data")[0]
         .value;
-      const botJson = JSON.parse(
-        jsonString
-          .replace(/"([^"]+)":/g, '"$1":')
-          .replace(/:"([^"]+)"/g, ':"$1"')
-      );
+
+      let botJson;
+      try {
+        botJson = JSON.parse(
+          jsonString
+            .replace(/"([^"]+)":/g, '"$1":')
+            .replace(/:"([^"]+)"/g, ':"$1"')
+        );
+        setBots(botJson);
+      } catch (e) {
+        console.log(e);
+        botJson = {};
+      }
 
       setBots(botJson);
     }
@@ -48,7 +57,7 @@ export default function BotCard({process ="Rz6llKMi_m_NPdCtUR1oeI-TXmpCsUbvXsQhj
 
   return (
     <>
-      {Object.keys(bots).map((key) => (
+      {Object.keys(bots)?.map((key) => (
         <BotModal key={key} botKey={key} bot={bots[key]}></BotModal>
       ))}
     </>

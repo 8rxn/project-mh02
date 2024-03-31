@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import WeaveDB from "weavedb-sdk";
 
-const page = () => {
+const Page = () => {
   const db = new WeaveDB({ contractTxId: "d75ywp8smpqpror7i5n00twi-0.28.0" });
   useEffect(() => {
     async function init() {
@@ -41,4 +41,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

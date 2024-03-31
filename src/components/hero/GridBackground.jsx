@@ -14,7 +14,7 @@ export function GridBackground({ children }) {
 
 export function GridSmallBackground({ children }) {
   return (
-    <div className="h-[50rem] w-full bg-[#0b0b0b] bg-grid-small-white/[0.2] relative flex items-center justify-center">
+    <div className="h-screen w-full bg-[#0b0b0b] bg-grid-small-white/[0.2] relative flex items-start justify-center">
       <div className="absolute pointer-events-none -z-40 inset-0 flex items-center justify-center bg-[#0b0b0b] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       {children}
     </div>

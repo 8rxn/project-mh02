@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import TextMessage from "../../../components/messages/TextMessage";
 import ImgMessage from "../../../components/messages/ImgMessage";
 import ChatNav from "../../../components/navbar/ChatNav";
-import { ScrollShadow, Tooltip, image } from "@nextui-org/react";
+import { ScrollShadow, Tooltip, Button } from "@nextui-org/react";
 import { IoSend } from "react-icons/io5";
 
 import Chat from "../../../components/messages/Chat";
@@ -17,7 +17,18 @@ import {
 } from "@permaweb/aoconnect/browser";
 
 export default function Page({ params }) {
-  const chats = [];
+  const allChats = [
+    {
+      title: "Default Chat",
+      roomid: "mK6hl6stBOfK1m66TpmYQ_3RG_FrRXWsJSdGTV6__i8",
+    },
+    {
+      title: "Another Default Chat",
+      roomid: "q31Pxdd4lMzv5EIIQR7olls8VjZXAZOoiqOg8iiWybo",
+    },
+  ];
+  const [chats, setChats] = useState(allChats);
+
   let process = params.roomid;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -238,14 +249,6 @@ export default function Page({ params }) {
     init();
   }, [myId]);
 
-  // useEffect(() => {
-  //   const fetchInterval = setInterval(() => {
-  //     fetchNewMessages();
-  //   }, 4000);
-
-  //   return () => clearInterval(fetchInterval);
-  // }, []);
-
   const scrollBottom = () => {
     const chatContainer = document.getElementById("chatcontainer");
     if (chatContainer) {
@@ -261,8 +264,8 @@ export default function Page({ params }) {
             All Chats
           </p>
           <ScrollShadow hideScrollBar className="max-h-[300px] overflow-scroll">
-            {chats.map(({ chatroom, chatId }, index) => (
-              <Chat key={index} chatroom={chatroom} chatId={chatId} />
+            {allChats.map((chat, index) => (
+              <Chat key={index} chatroom={chat.title} chatId={chat.roomid} currentId={process}/>
             ))}
           </ScrollShadow>
         </div>
@@ -336,29 +339,31 @@ export default function Page({ params }) {
         )}
         {!registered && (
           <div className="mx-auto w-auto overflow-auto relative min-h-[80vh] bg-[#080808] grid place-items-center">
-            <div className="text-white">
+            <div className="text-white flex flex-col gap-4 justify-center items-center">
               <p className="text-2xl font-bold">Register to Chat</p>
 
-              <div className="mt-2">
+              <div className="mt-0">
                 Your Tokens : {tokens ? tokens : "Loading..."}
               </div>
-              <div className="flex items-center gap-4 justify-center ">
-                <button
+              <div className="flex items-center gap-4 justify-center">
+                <Button
                   disabled={tokens == null}
                   onClick={() => {
                     GetTokens();
                   }}
+                  className="bg-[#95A4FC]"
                 >
                   Get More Tokens
-                </button>
-                <button
+                </Button>
+                <Button
                   disabled={tokens == null}
                   onClick={() => {
                     register();
                   }}
+                  className="bg-[#95A4FC]"
                 >
                   Register for Chat
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -426,10 +431,11 @@ export default function Page({ params }) {
                 type="file"
                 onChange={(e) => setFile(e.target.value)}
                 aria-label="Upload"
+                className="text-white"
               />
               {file && (
                 <button
-                  className="bg-gray-50 absolute z-10"
+                  className="bg-gray-50 absolute z-10 p-2"
                   onClick={() => {
                     uploadImage();
                   }}

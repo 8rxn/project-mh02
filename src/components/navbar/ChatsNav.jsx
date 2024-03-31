@@ -13,9 +13,9 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { IoMdAddCircle } from "react-icons/io";
-import { FaCircleInfo } from "react-icons/fa6";
+import axios from "axios";
 
-export default function ChatsNav() {
+export default function ChatsNav({ setChats }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -25,7 +25,36 @@ export default function ChatsNav() {
     onOpenChange: onBotOpenChange,
   } = useDisclosure();
 
+  const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleCreation = async () => {
+    setLoading(true);
+
+    let headersList = {
+      Accept: "*/*",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+    };
+
+    let reqOptions = {
+      url: "https://project-mh02.onrender.com/chatroom",
+      method: "GET",
+      headers: headersList,
+    };
+
+    let response = await axios.request(reqOptions);
+    console.log(response.data);
+
+    const { id } = response.data;
+
+    setLoading(false);
+    onclose();
+
+    setChats((prev) => [
+      ...prev,
+      { title: "sample-auto-gen-chat", roomid: id },
+    ]);
+  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -124,22 +153,24 @@ export default function ChatsNav() {
                       variant={"underlined"}
                       placeholder="Chat Room Name"
                       radius="none"
+                      id="chatName"
                       color="white"
                       className="p-0 rounded-md outline-none focus:outline-none border-none focus:border-none text-white font-RobotoMono"
                     />
                     <Button
-                      onPress={onClose}
+                      onPress={handleCreation}
+                      isLoading={loading}
                       className="text-gray-900 rounded-md w-full font-RobotoMono bg-[#95A4FC]"
                     >
                       Create
                     </Button>
                   </div>
-                  <p className="text-white font-RobotoMono text-lg text-center w-full">OR</p>
-                  <Button
-                    className="flex items-center justify-center rounded-md text-gray-900 w-full font-RobotoMono bg-[#95A4FC]"
-                  >
+                  <p className="text-white font-RobotoMono text-lg text-center w-full">
+                    OR
+                  </p>
+                  <Button className="flex items-center justify-center rounded-md text-gray-900 w-full font-RobotoMono bg-[#95A4FC]">
                     <a href="/custom/chat" className="w-full">
-                    Create Custom Chat Room
+                      Create Custom Chat Room
                     </a>
                   </Button>
                 </div>
@@ -213,10 +244,10 @@ export default function ChatsNav() {
                       <Button
                         onPress={onClose}
                         className="flex items-center justify-center rounded-md text-gray-900 w-full font-RobotoMono bg-[#95fce7]"
-                  >
-                    <a href="/custom/bot" className="w-full">
-                    Create Custom Chat Bot
-                    </a>
+                      >
+                        <a href="/custom/bot" className="w-full">
+                          Create Custom Chat Bot
+                        </a>
                       </Button>
                       <Button
                         onPress={onClose}

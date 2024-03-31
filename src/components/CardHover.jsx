@@ -57,7 +57,7 @@ const Card = ({ className, children }) => {
       )}
     >
       <div className="relative z-50">
-        <div className="p-2">{children}</div>
+        <div className="p-2 text-md sm:text-lg">{children}</div>
       </div>
       <p className="text-2xl text-gray-300 mr-2">
         <FaArrowCircleRight />
@@ -70,7 +70,7 @@ const CardTitle = ({ className, children }) => {
   return (
     <h4
       className={cn(
-        "text-white font-bold font-RobotoMono tracking-wide mt-2 text-xl",
+        "text-white font-bold font-RobotoMono tracking-wide mt-2 text-md sm:text-xl",
         className
       )}
     >
@@ -83,24 +83,11 @@ const CardSubTitle = ({ className, children }) => {
   return (
     <h4
       className={cn(
-        "text-gray-400 font-regular font-RobotoMono tracking-wide mt-1",
+        "text-gray-400 font-regular font-RobotoMono tracking-wide mt-1 text-sm sm:text-lg text-ellipsis text-ellipsis line-clamp-1 max-w-[150px] sm:max-w-auto",
         className
       )}
     >
       {children}
     </h4>
-  );
-};
-
-const CardDescription = ({ className, children }) => {
-  return (
-    <p
-      className={cn(
-        "mt-4 text-zinc-400 tracking-wide leading-relaxed text-sm",
-        className
-      )}
-    >
-      {children}
-    </p>
   );
 };

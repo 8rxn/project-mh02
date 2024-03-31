@@ -12,6 +12,7 @@
     "@nextui-org/react": "^2.2.10",
     "@permaweb/aoconnect": "^0.0.51",
     "arweave-wallet-kit": "^1.0.4",
+    "axios": "^1.6.8",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.23",
     "mini-svg-data-uri": "^1.4.4",

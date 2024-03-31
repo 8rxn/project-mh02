@@ -17,7 +17,18 @@ import {
 } from "@permaweb/aoconnect/browser";
 
 export default function Page({ params }) {
-  const chats = [];
+  const allChats = [
+    {
+      title: "Default Chat",
+      roomid: "mK6hl6stBOfK1m66TpmYQ_3RG_FrRXWsJSdGTV6__i8",
+    },
+    {
+      title: "Another Default Chat",
+      roomid: "q31Pxdd4lMzv5EIIQR7olls8VjZXAZOoiqOg8iiWybo",
+    },
+  ];
+  const [chats, setChats] = useState(allChats);
+
   let process = params.roomid;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -261,8 +272,8 @@ export default function Page({ params }) {
             All Chats
           </p>
           <ScrollShadow hideScrollBar className="max-h-[300px] overflow-scroll">
-            {chats.map(({ chatroom, chatId }, index) => (
-              <Chat key={index} chatroom={chatroom} chatId={chatId} />
+            {allChats.map((chat, index) => (
+              <Chat key={index} chatroom={chat.title} chatId={chat.roomid} currentId={process}/>
             ))}
           </ScrollShadow>
         </div>
@@ -342,7 +353,7 @@ export default function Page({ params }) {
               <div className="mt-0">
                 Your Tokens : {tokens ? tokens : "Loading..."}
               </div>
-              <div className="flex items-center gap-4 justify-center ">
+              <div className="flex items-center gap-4 justify-center">
                 <Button
                   disabled={tokens == null}
                   onClick={() => {
@@ -432,7 +443,7 @@ export default function Page({ params }) {
               />
               {file && (
                 <button
-                  className="bg-gray-50 absolute z-10 text-white"
+                  className="bg-gray-50 absolute z-10 p-2"
                   onClick={() => {
                     uploadImage();
                   }}
